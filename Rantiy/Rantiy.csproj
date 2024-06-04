@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFrameworks>net8.0-android;net8.0-ios;net8.0-maccatalyst</TargetFrameworks>
@@ -24,7 +24,7 @@
 		<ApplicationTitle>Rantiy</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.rantiy</ApplicationId>
+		<ApplicationId>com.danielmonettelli.rantiy</ApplicationId>
 
 		<!-- Versions -->
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
