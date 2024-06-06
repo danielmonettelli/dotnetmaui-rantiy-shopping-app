@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<?xaml-comp compile="true" ?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:droid="clr-namespace:CommunityToolkit.Maui.PlatformConfiguration.AndroidSpecific;assembly=CommunityToolkit.Maui"
+    xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls">
+
+    <Style
+        ApplyToDerivedTypes="True"
+        TargetType="Page">
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="ios:Page.UseSafeArea" Value="True" />
+        <Setter Property="droid:NavigationBar.Color" Value="{AppThemeBinding Light={StaticResource primary_light}, Dark={StaticResource primary_dark}}" />
+        <Setter Property="droid:NavigationBar.Style" Value="Default" />
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource background_light}, Dark={StaticResource background_dark}}" />
+    </Style>
+
+    <Style
+        ApplyToDerivedTypes="True"
+        TargetType="Shell">
+        <!--  NavBar BackgroundColor  -->
+        <Setter Property="Shell.BackgroundColor" Value="{AppThemeBinding Light={StaticResource primary_light}, Dark={StaticResource primary_dark}}" />
+        <!--  NavBar Shadow  -->
+        <Setter Property="Shell.NavBarHasShadow" Value="False" />
+        <!--  TabBar BackgroundColor  -->
+        <Setter Property="Shell.TabBarBackgroundColor" Value="{AppThemeBinding Light={StaticResource primary_light}, Dark={StaticResource primary_dark}}" />
+        <!--  Selected icon color in TabBar  -->
+        <Setter Property="Shell.TabBarForegroundColor" Value="{AppThemeBinding Light={StaticResource orange_9_light}, Dark={StaticResource orange_9_dark}}" />
+        <!--  Selected text color in TabBar  -->
+        <Setter Property="Shell.TabBarTitleColor" Value="{AppThemeBinding Light={StaticResource orange_9_light}, Dark={StaticResource orange_9_dark}}" />
+        <!--  Unselected icon and text color in TabBar  -->
+        <Setter Property="Shell.TabBarUnselectedColor" Value="{AppThemeBinding Light={StaticResource gray_7_light}, Dark={StaticResource gray_8_dark}}" />
+    </Style>
+
+</ResourceDictionary>

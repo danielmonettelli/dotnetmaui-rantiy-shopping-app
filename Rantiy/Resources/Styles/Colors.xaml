@@ -1,45 +1,44 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <?xaml-comp compile="true" ?>
-<ResourceDictionary 
+<ResourceDictionary
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
-    <!-- Note: For Android please see also Platforms\Android\Resources\values\colors.xml -->
+    <Color x:Key="background_dark">#FF161616</Color>
+    <Color x:Key="background_light">#FFEDEDED</Color>
+    <Color x:Key="gray_10_light">#FF676873</Color>
+    <Color x:Key="gray_11_dark">#FFB2B3BD</Color>
+    <Color x:Key="gray_11_light">#FF4B4C54</Color>
+    <Color x:Key="gray_12_dark">#FFEEEEF0</Color>
+    <Color x:Key="gray_12_light">#FF1E1F24</Color>
+    <Color x:Key="gray_1_dark">#FF161618</Color>
+    <Color x:Key="gray_1_light">#FFE8E9EA</Color>
+    <Color x:Key="gray_2_dark">#FF1C1D1F</Color>
+    <Color x:Key="gray_2_light">#FFE4E4E6</Color>
+    <Color x:Key="gray_3_dark">#FF242528</Color>
+    <Color x:Key="gray_3_light">#FFD9DADD</Color>
+    <Color x:Key="gray_4_dark">#FF2A2B2F</Color>
+    <Color x:Key="gray_4_light">#FFD0D1D5</Color>
+    <Color x:Key="gray_5_dark">#FF313237</Color>
+    <Color x:Key="gray_5_light">#FFC7C8CE</Color>
+    <Color x:Key="gray_7_light">#FFB2B4BC</Color>
+    <Color x:Key="gray_8_dark">#FF5F606A</Color>
+    <Color x:Key="gray_8_light">#FF9EA0AB</Color>
+    <Color x:Key="orange_10_dark">#FFF27F00</Color>
+    <Color x:Key="orange_10_light">#FF9A3D00</Color>
+    <Color x:Key="orange_11_dark">#FFFFA354</Color>
+    <Color x:Key="orange_11_light">#FF9B3D00</Color>
+    <Color x:Key="orange_12_dark">#FFFFDFC8</Color>
+    <Color x:Key="orange_12_light">#FF533020</Color>
+    <Color x:Key="orange_1_light">#FFEBE9E8</Color>
+    <Color x:Key="orange_3_dark">#FF331F0F</Color>
+    <Color x:Key="orange_3_light">#FFF2D5C8</Color>
+    <Color x:Key="orange_5_light">#FFF4B79C</Color>
+    <Color x:Key="orange_8_dark">#FF9C5D29</Color>
+    <Color x:Key="orange_8_light">#FFCC7B56</Color>
+    <Color x:Key="orange_9_dark">#FFFF8A00</Color>
+    <Color x:Key="orange_9_light">#FFAF4700</Color>
+    <Color x:Key="primary_dark">#FF141414</Color>
+    <Color x:Key="primary_light">#FFFFFFFF</Color>
 
-    <Color x:Key="Primary">#512BD4</Color>
-    <Color x:Key="PrimaryDark">#ac99ea</Color>
-    <Color x:Key="PrimaryDarkText">#242424</Color>
-    <Color x:Key="Secondary">#DFD8F7</Color>
-    <Color x:Key="SecondaryDarkText">#9880e5</Color>
-    <Color x:Key="Tertiary">#2B0B98</Color>
-
-    <Color x:Key="White">White</Color>
-    <Color x:Key="Black">Black</Color>
-    <Color x:Key="Magenta">#D600AA</Color>
-    <Color x:Key="MidnightBlue">#190649</Color>
-    <Color x:Key="OffBlack">#1f1f1f</Color>
-
-    <Color x:Key="Gray100">#E1E1E1</Color>
-    <Color x:Key="Gray200">#C8C8C8</Color>
-    <Color x:Key="Gray300">#ACACAC</Color>
-    <Color x:Key="Gray400">#919191</Color>
-    <Color x:Key="Gray500">#6E6E6E</Color>
-    <Color x:Key="Gray600">#404040</Color>
-    <Color x:Key="Gray900">#212121</Color>
-    <Color x:Key="Gray950">#141414</Color>
-
-    <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource Primary}"/>
-    <SolidColorBrush x:Key="SecondaryBrush" Color="{StaticResource Secondary}"/>
-    <SolidColorBrush x:Key="TertiaryBrush" Color="{StaticResource Tertiary}"/>
-    <SolidColorBrush x:Key="WhiteBrush" Color="{StaticResource White}"/>
-    <SolidColorBrush x:Key="BlackBrush" Color="{StaticResource Black}"/>
-
-    <SolidColorBrush x:Key="Gray100Brush" Color="{StaticResource Gray100}"/>
-    <SolidColorBrush x:Key="Gray200Brush" Color="{StaticResource Gray200}"/>
-    <SolidColorBrush x:Key="Gray300Brush" Color="{StaticResource Gray300}"/>
-    <SolidColorBrush x:Key="Gray400Brush" Color="{StaticResource Gray400}"/>
-    <SolidColorBrush x:Key="Gray500Brush" Color="{StaticResource Gray500}"/>
-    <SolidColorBrush x:Key="Gray600Brush" Color="{StaticResource Gray600}"/>
-    <SolidColorBrush x:Key="Gray900Brush" Color="{StaticResource Gray900}"/>
-    <SolidColorBrush x:Key="Gray950Brush" Color="{StaticResource Gray950}"/>
 </ResourceDictionary>

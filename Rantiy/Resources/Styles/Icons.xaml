@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<?xaml-comp compile="true" ?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:FontIcons="clr-namespace:Rantiy.FontIconsInCode">
+
+    <FontImageSource
+        x:Key="icon_favorite_solid"
+        FontFamily="CustomFontIcons"
+        Glyph="{x:Static FontIcons:CustomFontIcons.icon_favorite_solid}"
+        Size="16"
+        Color="#f43535" />
+
+    <FontImageSource
+        x:Key="icon_favorite_outline"
+        FontFamily="CustomFontIcons"
+        Glyph="{x:Static FontIcons:CustomFontIcons.icon_favorite_outline}"
+        Size="16"
+        Color="{AppThemeBinding Light={StaticResource gray_12_light},
+                                Dark={StaticResource gray_12_dark}}" />
+
+    <FontImageSource
+        x:Key="shell_icon_home"
+        FontFamily="CustomFontIcons"
+        Glyph="{x:Static FontIcons:CustomFontIcons.icon_home}"
+        Size="25" />
+
+    <FontImageSource
+        x:Key="shell_icon_shopping_cart_solid"
+        FontFamily="CustomFontIcons"
+        Glyph="{x:Static FontIcons:CustomFontIcons.icon_shopping_cart_solid}"
+        Size="25" />
+
+    <FontImageSource
+        x:Key="shell_icon_favorite_solid"
+        FontFamily="CustomFontIcons"
+        Glyph="{x:Static FontIcons:CustomFontIcons.icon_favorite_solid}"
+        Size="25" />
+
+    <FontImageSource
+        x:Key="icon_add_shopping_cart_outline"
+        FontFamily="CustomFontIcons"
+        Glyph="{x:Static FontIcons:CustomFontIcons.icon_add_shopping_cart_outline}"
+        Size="21"
+        Color="{AppThemeBinding Light={StaticResource orange_1_light},
+                                Dark={StaticResource gray_12_dark}}" />
+
+    <FontImageSource
+        x:Key="icon_left_arrow"
+        FontFamily="CustomFontIcons"
+        Glyph="{x:Static FontIcons:CustomFontIcons.icon_left_arrow}"
+        Size="16"
+        Color="{AppThemeBinding Light={StaticResource gray_12_light},
+                                Dark={StaticResource gray_12_dark}}" />
+
+    <FontImageSource
+        x:Key="icon_delete"
+        FontFamily="CustomFontIcons"
+        Glyph="{x:Static FontIcons:CustomFontIcons.icon_delete}"
+        Size="14"
+        Color="{AppThemeBinding Light={StaticResource gray_12_light},
+                                Dark={StaticResource gray_12_dark}}" />
+
+</ResourceDictionary>
