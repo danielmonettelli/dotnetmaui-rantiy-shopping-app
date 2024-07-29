@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Rantiy.Views.HomePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:Controls="clr-namespace:Rantiy.Controls"
+    xmlns:Converter="clr-namespace:Rantiy.Converters"
+    xmlns:Model="clr-namespace:Rantiy.Models"
+    xmlns:ViewModel="clr-namespace:Rantiy.ViewModels"
+    xmlns:mct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:pages="clr-namespace:Rantiy.Views"
+    x:DataType="ViewModel:HomeViewModel"
+    Shell.NavBarIsVisible="False"
+    SizeChanged="HomePage_SizeChanged">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Converter:BooleanToFavoriteIconConverter x:Key="BooleanToFavoriteIconConverter" />
+
+            <!--<mct:BoolToObjectConverter
+                x:Key="IsIconFavoriteConverter"
+                FalseObject="{StaticResource icon_favorite_outline}"
+                TrueObject="{StaticResource icon_favorite_solid}" />-->
+
+            <!--#region Category List Style-->
+            <Style TargetType="Controls:MyBorder1">
+                <Setter Property="VisualStateManager.VisualStateGroups">
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource unselected_item_color_light}, Dark={StaticResource unselected_item_color_dark}}" />
+                                    <Setter Property="StrokeThickness" Value="0" />
+                                </VisualState.Setters>
+                            </VisualState>
+
+                            <VisualState x:Name="Selected">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource selected_item_color_light}, Dark={StaticResource primary_color_dark}}" />
+                                    <Setter Property="StrokeThickness" Value="0" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </Setter>
+            </Style>
+            <!--#endregion-->
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+
+    <Grid RowDefinitions="Auto, 2, 86, 2, *">
+        <!--  Brand icon bar (Grid.Row="0")  -->
+        <HorizontalStackLayout
+            Grid.Row="0"
+            Padding="8,0,0,0"
+            HeightRequest="56">
+            <Image
+                HeightRequest="30"
+                HorizontalOptions="Start"
+                Source="icon_brand.png"
+                VerticalOptions="Center">
+                <Image.Behaviors>
+                    <mct:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource primary_color_light}, Dark={StaticResource primary_color_dark}}" />
+                </Image.Behaviors>
+            </Image>
+        </HorizontalStackLayout>
+
+        <!--  Separator  (Grid.Row="1")  -->
+        <BoxView
+            Grid.Row="1"
+            BackgroundColor="{AppThemeBinding Light={StaticResource separator_color_light},
+                                              Dark={StaticResource separator_color_dark}}" />
+
+        <!--#region Category List (Grid.Row="2")-->
+        <CollectionView
+            Grid.Row="2"
+            Margin="8,16"
+            ItemsSource="{Binding Categories}"
+            SelectedItem="{Binding SelectedCategory}"
+            SelectionMode="Single">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout
+                    HorizontalItemSpacing="16"
+                    Orientation="Horizontal" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="Model:Category">
+                    <Controls:MyBorder1
+                        Padding="24,16"
+                        StrokeShape="{RoundRectangle CornerRadius='8,8,8,8'}">
+                        <Label
+                            Style="{StaticResource TxtSubtitle1_1}"
+                            Text="{Binding Name}" />
+                    </Controls:MyBorder1>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <!--#endregion-->
+
+        <!--  Separator  (Grid.Row="3")  -->
+        <BoxView
+            Grid.Row="3"
+            BackgroundColor="{AppThemeBinding Light={StaticResource separator_color_light},
+                                              Dark={StaticResource separator_color_dark}}" />
+
+        <!--#region Filtered Product List (Grid.Row="4")-->
+        <CollectionView
+            Grid.Row="4"
+            ItemsSource="{Binding FilteredProducts}"
+            SelectedItem="{Binding SelectedFilteredProduct}"
+            SelectionChangedCommand="{Binding SelectedFilteredProductCommand}"
+            SelectionMode="Single">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout
+                    HorizontalItemSpacing="4"
+                    Orientation="Vertical"
+                    Span="{Binding Columns}"
+                    VerticalItemSpacing="4" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="Model:Product">
+                    <Border
+                        BackgroundColor="{AppThemeBinding Light={StaticResource product_item_surface_color_light},
+                                                          Dark={StaticResource product_item_surface_color_dark}}"
+                        HeightRequest="250"
+                        StrokeThickness="0"
+                        WidthRequest="178">
+                        <Grid
+                            Padding="4,0,4,16"
+                            RowDefinitions="*, Auto, 8, Auto, 8, Auto">
+                            <!--  Product Image  -->
+                            <Border
+                                Grid.Row="0"
+                                Margin="-4,0"
+                                BackgroundColor="{AppThemeBinding Light={StaticResource internal_surface_color_light},
+                                                                  Dark={StaticResource internal_surface_color_dark}}"
+                                StrokeThickness="0">
+
+                                <Image
+                                    Aspect="AspectFill"
+                                    Source="{Binding Images[0]}" />
+                            </Border>
+
+                            <!--  Free Shipping  -->
+                            <Border
+                                Grid.Row="1"
+                                Margin="-4,0"
+                                Padding="4"
+                                BackgroundColor="{AppThemeBinding Light={StaticResource white_color},
+                                                                  Dark={StaticResource text_container_color_dark}}"
+                                HorizontalOptions="StartAndExpand"
+                                StrokeThickness="0">
+                                <Label
+                                    HorizontalTextAlignment="Start"
+                                    LineBreakMode="TailTruncation"
+                                    MaxLines="1"
+                                    Style="{StaticResource TxtSubtitle2_1}"
+                                    Text="FREE SHIPPING"
+                                    VerticalTextAlignment="Center" />
+                            </Border>
+
+                            <!--  Product Price  -->
+                            <Label
+                                Grid.Row="3"
+                                HorizontalTextAlignment="Start"
+                                LineBreakMode="TailTruncation"
+                                MaxLines="1"
+                                Style="{StaticResource TxtHeadline6_2}"
+                                Text="{Binding Price, StringFormat='$ {0:N0}'}"
+                                VerticalTextAlignment="Center" />
+
+                            <!--  Product Title  -->
+                            <Label
+                                Grid.Row="5"
+                                HorizontalTextAlignment="Start"
+                                LineBreakMode="TailTruncation"
+                                MaxLines="2"
+                                Style="{StaticResource TxtBody1_1}"
+                                Text="{Binding Title}"
+                                VerticalTextAlignment="Center" />
+
+                            <!--  Favorite Icon  -->
+                            <ImageButton
+                                Grid.Row="0"
+                                Grid.RowSpan="3"
+                                Margin="{OnPlatform WinUI='0,8,16,0',
+                                                    Default='0,8,8,0'}"
+                                Aspect="Center"
+                                BackgroundColor="{AppThemeBinding Light={StaticResource white_color},
+                                                                  Dark={StaticResource icon_container_primary_color_dark}}"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type pages:HomePage}}, Path=BindingContext.ToggleFavoriteIconCommand}"
+                                CommandParameter="{Binding .}"
+                                CornerRadius="15"
+                                HeightRequest="30"
+                                HorizontalOptions="End"
+                                Source="{Binding IsFavorite, Converter={StaticResource BooleanToFavoriteIconConverter}}"
+                                VerticalOptions="Start"
+                                WidthRequest="30">
+                                <ImageButton.Shadow>
+                                    <Shadow
+                                        Brush="{AppThemeBinding Light={StaticResource black_color_brush},
+                                                                Dark={StaticResource white_color_brush}}"
+                                        Opacity="0.45"
+                                        Radius="10"
+                                        Offset="0,4" />
+                                </ImageButton.Shadow>
+                            </ImageButton>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+            <CollectionView.EmptyView>
+                <!--  Empty View for No Products  -->
+                <ContentView>
+                    <StackLayout
+                        HorizontalOptions="CenterAndExpand"
+                        VerticalOptions="CenterAndExpand">
+                        <Label
+                            Style="{StaticResource TxtBody1_2}"
+                            Text="There are no products in this Category" />
+                    </StackLayout>
+                </ContentView>
+            </CollectionView.EmptyView>
+        </CollectionView>
+        <!--#endregion-->
+    </Grid>
+</ContentPage>

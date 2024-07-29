@@ -17,8 +17,8 @@
         FontFamily="CustomFontIcons"
         Glyph="{x:Static FontIcons:CustomFontIcons.icon_favorite_outline}"
         Size="16"
-        Color="{AppThemeBinding Light={StaticResource gray_12_light},
-                                Dark={StaticResource gray_12_dark}}" />
+        Color="{AppThemeBinding Light={StaticResource black_color},
+                                Dark={StaticResource white_color}}" />
 
     <FontImageSource
         x:Key="shell_icon_home"
@@ -43,23 +43,87 @@
         FontFamily="CustomFontIcons"
         Glyph="{x:Static FontIcons:CustomFontIcons.icon_add_shopping_cart_outline}"
         Size="21"
-        Color="{AppThemeBinding Light={StaticResource orange_1_light},
-                                Dark={StaticResource gray_12_dark}}" />
+        Color="{AppThemeBinding Light={StaticResource white_color},
+                                Dark={StaticResource text_primary_color_dark}}" />
 
     <FontImageSource
         x:Key="icon_left_arrow"
         FontFamily="CustomFontIcons"
         Glyph="{x:Static FontIcons:CustomFontIcons.icon_left_arrow}"
         Size="16"
-        Color="{AppThemeBinding Light={StaticResource gray_12_light},
-                                Dark={StaticResource gray_12_dark}}" />
+        Color="{AppThemeBinding Light={StaticResource black_color},
+                                Dark={StaticResource white_color}}" />
 
     <FontImageSource
         x:Key="icon_delete"
         FontFamily="CustomFontIcons"
         Glyph="{x:Static FontIcons:CustomFontIcons.icon_delete}"
         Size="14"
-        Color="{AppThemeBinding Light={StaticResource gray_12_light},
-                                Dark={StaticResource gray_12_dark}}" />
+        Color="{AppThemeBinding Light={StaticResource black_color},
+                                Dark={StaticResource white_color}}" />
+
+    <FontImageSource
+        x:Key="icon_no_image_available_surface_1"
+        FontFamily="CustomFontIcons"
+        Glyph="{x:Static FontIcons:CustomFontIcons.icon_no_image_available}"
+        Size="90"
+        Color="{AppThemeBinding Light={StaticResource pre_load_brand_icon_color_light},
+                                Dark={StaticResource pre_load_brand_icon_color_dark}}" />
+
+    <FontImageSource
+        x:Key="icon_no_image_available_surface_2"
+        FontFamily="CustomFontIcons"
+        Glyph="{x:Static FontIcons:CustomFontIcons.icon_no_image_available}"
+        Size="155"
+        Color="{AppThemeBinding Light={StaticResource pre_load_brand_icon_color_light},
+                                Dark={StaticResource pre_load_brand_icon_color_dark}}" />
+
+    <FontImageSource
+        x:Key="icon_no_image_available_surface_3"
+        FontFamily="CustomFontIcons"
+        Glyph="{x:Static FontIcons:CustomFontIcons.icon_no_image_available}"
+        Size="40"
+        Color="{AppThemeBinding Light={StaticResource pre_load_brand_icon_color_light},
+                                Dark={StaticResource pre_load_brand_icon_color_dark}}" />
+
+    <FontImageSource
+        x:Key="icon_no_image_available_surface_4"
+        FontFamily="CustomFontIcons"
+        Glyph="{x:Static FontIcons:CustomFontIcons.icon_no_image_available}"
+        Size="40"
+        Color="{AppThemeBinding Light={StaticResource pre_load_brand_icon_color_light},
+                                Dark={StaticResource pre_load_brand_icon_color_dark}}" />
+
+    <FontImageSource
+        x:Key="icon_brand_surface_1"
+        FontFamily="CustomFontIcons"
+        Glyph="{x:Static FontIcons:CustomFontIcons.icon_brand}"
+        Size="80"
+        Color="{AppThemeBinding Light={StaticResource pre_load_brand_icon_color_light},
+                                Dark={StaticResource pre_load_brand_icon_color_dark}}" />
+
+    <FontImageSource
+        x:Key="icon_brand_surface_2"
+        FontFamily="CustomFontIcons"
+        Glyph="{x:Static FontIcons:CustomFontIcons.icon_brand}"
+        Size="155"
+        Color="{AppThemeBinding Light={StaticResource pre_load_brand_icon_color_light},
+                                Dark={StaticResource pre_load_brand_icon_color_dark}}" />
+
+    <FontImageSource
+        x:Key="icon_brand_surface_3"
+        FontFamily="CustomFontIcons"
+        Glyph="{x:Static FontIcons:CustomFontIcons.icon_brand}"
+        Size="40"
+        Color="{AppThemeBinding Light={StaticResource pre_load_brand_icon_color_light},
+                                Dark={StaticResource pre_load_brand_icon_color_dark}}" />
+
+    <FontImageSource
+        x:Key="icon_brand_surface_4"
+        FontFamily="CustomFontIcons"
+        Glyph="{x:Static FontIcons:CustomFontIcons.icon_brand}"
+        Size="50"
+        Color="{AppThemeBinding Light={StaticResource pre_load_brand_icon_color_light},
+                                Dark={StaticResource pre_load_brand_icon_color_dark}}" />
 
 </ResourceDictionary>

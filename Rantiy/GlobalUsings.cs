@@ -1,0 +1,16 @@
+﻿global using CommunityToolkit.Maui;
+global using CommunityToolkit.Mvvm.ComponentModel;
+global using CommunityToolkit.Mvvm.Input;
+global using CommunityToolkit.Mvvm.Messaging;
+global using Microsoft.Extensions.Logging;
+global using Rantiy.Constants;
+global using Rantiy.Messages;
+global using Rantiy.Models;
+global using Rantiy.Services;
+global using Rantiy.ViewModels;
+global using Rantiy.Views;
+global using System.Collections.ObjectModel;
+global using System.Globalization;
+global using System.Net.Http.Headers;
+global using System.Text.Json;
+global using System.Text.Json.Serialization;

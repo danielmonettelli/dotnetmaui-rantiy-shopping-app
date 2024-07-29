@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="Rantiy.ReusableControls.TitleViewReusable"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ViewModel="clr-namespace:Rantiy.ViewModels"
+    Padding="-16,0,0,0"
+    x:DataType="ViewModel:BaseViewModel">
+
+    <Label
+        HorizontalTextAlignment="Center"
+        Style="{StaticResource TxtHeadline6_1}"
+        Text="{Binding Title}"
+        VerticalTextAlignment="Center" />
+
+</ContentView>

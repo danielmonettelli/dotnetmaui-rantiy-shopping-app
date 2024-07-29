@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Rantiy.Views.ShoppingCartPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:Converter="clr-namespace:Rantiy.Converters"
+    xmlns:Model="clr-namespace:Rantiy.Models"
+    xmlns:ReusableControl="clr-namespace:Rantiy.ReusableControls;assembly=Rantiy"
+    xmlns:ViewModel="clr-namespace:Rantiy.ViewModels"
+    x:DataType="ViewModel:ShoppingCartViewModel">
+
+    <Shell.TitleView>
+        <ReusableControl:TitleViewReusable />
+    </Shell.TitleView>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Converter:ItemCountToSingularPluralConverter x:Key="ItemCountConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="*, 4, Auto">
+
+        <!--#region Cart Products List (Grid.Row="0")-->
+        <CollectionView
+            Grid.Row="0"
+            ItemsSource="{Binding ShoppingCartProducts}">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout
+                    Orientation="Vertical"
+                    VerticalItemSpacing="4" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="Model:Product">
+                    <Border
+                        BackgroundColor="{AppThemeBinding Light={StaticResource cart_item_surface_color_light},
+                                                          Dark={StaticResource cart_item_surface_color_dark}}"
+                        StrokeThickness="0">
+                        <Grid
+                            ColumnDefinitions="Auto, 24, Auto, *, Auto, 8"
+                            RowDefinitions="16, Auto, 16, Auto, 8">
+                            <!--  Image  -->
+                            <Border
+                                Grid.Row="0"
+                                Grid.RowSpan="5"
+                                Grid.Column="0"
+                                BackgroundColor="{AppThemeBinding Light={StaticResource internal_surface_color_light},
+                                                                  Dark={StaticResource internal_surface_color_dark}}"
+                                StrokeThickness="0">
+                                <Image
+                                    Aspect="AspectFill"
+                                    Source="{Binding Images[0]}"
+                                    WidthRequest="100" />
+                            </Border>
+
+                            <!--  Title  -->
+                            <Label
+                                Grid.Row="1"
+                                Grid.Column="2"
+                                Grid.ColumnSpan="3"
+                                Margin="0,0,16,0"
+                                Style="{StaticResource TxtBody1_1}"
+                                Text="{Binding Title}" />
+
+                            <!--  Price  -->
+                            <Label
+                                Grid.Row="3"
+                                Grid.Column="2"
+                                Style="{StaticResource TxtHeadline6_2}"
+                                Text="{Binding Price, StringFormat='$ {0:N0}'}"
+                                VerticalTextAlignment="Start" />
+
+                            <!--  Delete Icon  -->
+                            <ImageButton
+                                Grid.Row="3"
+                                Grid.Column="4"
+                                Aspect="Center"
+                                BackgroundColor="{AppThemeBinding Light={StaticResource icon_container_delete_color_light},
+                                                                  Dark={StaticResource icon_container_delete_color_dark}}"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModel:ShoppingCartViewModel}}, Path=RemoveProductCommand}"
+                                CommandParameter="{Binding .}"
+                                CornerRadius="8"
+                                HeightRequest="30"
+                                HorizontalOptions="End"
+                                Source="{StaticResource icon_delete}"
+                                WidthRequest="30">
+                                <ImageButton.Shadow>
+                                    <Shadow
+                                        Brush="{AppThemeBinding Light={StaticResource black_color_brush},
+                                                                Dark={StaticResource white_color_brush}}"
+                                        Opacity="0.45"
+                                        Radius="10"
+                                        Offset="0,2" />
+                                </ImageButton.Shadow>
+                            </ImageButton>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+            <CollectionView.EmptyView>
+                <!--  Empty View for No Products  -->
+                <ContentView>
+                    <StackLayout
+                        HorizontalOptions="CenterAndExpand"
+                        VerticalOptions="CenterAndExpand">
+                        <Label
+                            Style="{StaticResource TxtBody1_2}"
+                            Text="Your cart is empty" />
+                    </StackLayout>
+                </ContentView>
+            </CollectionView.EmptyView>
+        </CollectionView>
+        <!--#endregion-->
+
+        <!--#region Purchase Confirmation Area (Grid.Row="2")-->
+        <Border
+            Grid.Row="2"
+            Padding="16,24,16,16"
+            BackgroundColor="{AppThemeBinding Light={StaticResource product_item_surface_color_light},
+                                              Dark={StaticResource product_item_surface_color_dark}}"
+            StrokeThickness="0">
+            <Border.Shadow>
+                <Shadow
+                    Brush="{AppThemeBinding Light={StaticResource black_color_brush},
+                                            Dark={StaticResource white_color_brush}}"
+                    Opacity="0.15"
+                    Radius="8"
+                    Offset="0,-4" />
+            </Border.Shadow>
+
+            <Grid
+                ColumnDefinitions="Auto, *, Auto"
+                RowDefinitions="Auto, 24, Auto, 16, Auto">
+
+                <!--  Price Details  -->
+                <Label
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Style="{StaticResource TxtBody1_1}"
+                    Text="Price Details:" />
+
+                <!--  Textual Summary of Total Products  -->
+                <Label
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Style="{StaticResource TxtHeadline6_1}"
+                    Text="{Binding ShoppingCartProducts.Count, Converter={StaticResource ItemCountConverter}}" />
+
+                <!--  Textual Summary of Total Purchase Price  -->
+                <Label
+                    Grid.Row="2"
+                    Grid.Column="2"
+                    Style="{StaticResource TxtHeadline6_1}"
+                    Text="{Binding TotalPrice, StringFormat='$ {0:N2}'}" />
+
+                <!--  Place Order Button  -->
+                <Button
+                    Grid.Row="4"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    HeightRequest="48"
+                    Style="{StaticResource BtnPlaceOrder}"
+                    Text="Place Order" />
+            </Grid>
+        </Border>
+        <!--#endregion-->
+    </Grid>
+</ContentPage>

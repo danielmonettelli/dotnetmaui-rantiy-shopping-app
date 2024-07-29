@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Rantiy.Views.ProductDetailPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:Controls="clr-namespace:Rantiy.Controls;assembly=Rantiy"
+    xmlns:Converter="clr-namespace:Rantiy.Converters"
+    xmlns:ReusableControl="clr-namespace:Rantiy.ReusableControls;assembly=Rantiy"
+    xmlns:ViewModel="clr-namespace:Rantiy.ViewModels"
+    xmlns:mct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:DataType="ViewModel:ProductDetailViewModel"
+    Shell.TabBarIsVisible="False">
+
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior
+            IsEnabled="False"
+            IsVisible="False" />
+    </Shell.BackButtonBehavior>
+
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <!--#region Selectable Image List Style-->
+            <Style TargetType="Controls:MyBorder1">
+                <Setter Property="VisualStateManager.VisualStateGroups">
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource product_item_surface_color_light}, Dark={StaticResource product_item_surface_color_dark}}" />
+                                    <Setter Property="StrokeThickness" Value="0" />
+                                    <Setter Property="Opacity" Value="0.5" />
+                                </VisualState.Setters>
+                            </VisualState>
+
+                            <VisualState x:Name="Selected">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource product_item_surface_color_light}, Dark={StaticResource product_item_surface_color_dark}}" />
+                                    <Setter Property="Opacity" Value="1" />
+                                    <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource primary_color_light}, Dark={StaticResource primary_color_dark}}" />
+                                    <Setter Property="StrokeThickness" Value="2" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </Setter>
+            </Style>
+            <!--#endregion-->
+
+            <Converter:FavoriteIconSourceConverter x:Key="FavoriteIconSourceConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+
+    <Grid RowDefinitions="*, 16, Auto, 24, Auto">
+
+        <!--#region Main Selected Image View (Grid.Row="0")-->
+        <Border
+            Grid.Row="0"
+            BackgroundColor="{AppThemeBinding Light={StaticResource product_item_surface_color_light},
+                                              Dark={StaticResource product_item_surface_color_dark}}"
+            StrokeThickness="0">
+
+            <Image
+                Aspect="AspectFill"
+                Source="{Binding SelectedProductImageUrl}" />
+        </Border>
+
+        <Grid
+            Grid.Row="0"
+            Margin="16,8,16,0"
+            ColumnDefinitions="Auto,*, Auto"
+            VerticalOptions="Start">
+
+            <!--  Back Buttton  -->
+            <ImageButton
+                x:Name="BackButton"
+                Grid.Column="0"
+                Aspect="Center"
+                BackgroundColor="{AppThemeBinding Light={StaticResource white_color},
+                                                  Dark={StaticResource icon_container_primary_color_dark}}"
+                Command="{Binding GoBackCommand}"
+                CornerRadius="20"
+                HeightRequest="40"
+                Source="{StaticResource icon_left_arrow}"
+                WidthRequest="40">
+                <ImageButton.Shadow>
+                    <Shadow
+                        Brush="{AppThemeBinding Light={StaticResource black_color_brush},
+                                                Dark={StaticResource white_color_brush}}"
+                        Opacity="0.45"
+                        Radius="10"
+                        Offset="0,4" />
+                </ImageButton.Shadow>
+            </ImageButton>
+
+            <!--  Favorite Buttton  -->
+            <Border
+                x:Name="FavoriteButton"
+                Grid.Column="2"
+                BackgroundColor="{AppThemeBinding Light={StaticResource white_color},
+                                                  Dark={StaticResource icon_container_primary_color_dark}}"
+                HeightRequest="40"
+                StrokeShape="{RoundRectangle CornerRadius='20,20,20,20'}"
+                StrokeThickness="0"
+                WidthRequest="40">
+                <Border.Behaviors>
+                    <mct:TouchBehavior
+                        Command="{Binding ToggleFavoriteCommand}"
+                        DefaultAnimationDuration="250"
+                        DefaultAnimationEasing="{x:Static Easing.CubicInOut}"
+                        PressedOpacity="0.6"
+                        PressedScale="0.8" />
+                </Border.Behaviors>
+                <Border.Shadow>
+                    <Shadow
+                        Brush="{AppThemeBinding Light={StaticResource black_color_brush},
+                                                Dark={StaticResource white_color_brush}}"
+                        Opacity="0.45"
+                        Radius="10"
+                        Offset="0,4" />
+                </Border.Shadow>
+
+                <Image
+                    HeightRequest="16"
+                    HorizontalOptions="Center"
+                    Source="{Binding FavoriteIconSource, Converter={StaticResource FavoriteIconSourceConverter}}"
+                    VerticalOptions="Center" />
+            </Border>
+        </Grid>
+        <!--#endregion-->
+
+        <!--#region Selectable Image List (Grid.Row="2")-->
+        <CollectionView
+            Grid.Row="2"
+            Margin="16,0"
+            ItemsSource="{Binding ProductImageUrls}"
+            SelectedItem="{Binding SelectedProductImageUrl}"
+            SelectionMode="Single">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout
+                    ItemSpacing="16"
+                    Orientation="Horizontal" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="x:String">
+
+                    <Controls:MyBorder1
+                        HeightRequest="70"
+                        StrokeShape="{RoundRectangle CornerRadius='8,8,8,8'}"
+                        WidthRequest="70">
+
+                        <Image
+                            Aspect="AspectFill"
+                            Source="{Binding .}" />
+                    </Controls:MyBorder1>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <!--#endregion-->
+
+        <!--#region Product Info (Grid.Row="4")-->
+        <Border
+            Grid.Row="4"
+            Padding="16,24,16,16"
+            BackgroundColor="{AppThemeBinding Light={StaticResource product_item_surface_color_light},
+                                              Dark={StaticResource product_item_surface_color_dark}}"
+            StrokeThickness="0">
+            <Border.Shadow>
+                <Shadow
+                    Brush="{AppThemeBinding Light={StaticResource black_color_brush},
+                                            Dark={StaticResource white_color_brush}}"
+                    Opacity="0.15"
+                    Radius="8"
+                    Offset="0,-4" />
+            </Border.Shadow>
+
+            <Grid
+                ColumnDefinitions="Auto, *, Auto"
+                RowDefinitions="Auto, 8, Auto, 32, Auto">
+
+                <!--  Title  -->
+                <Label
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    Style="{StaticResource TxtHeadline6_3}"
+                    Text="{Binding CurrentProduct.Title}" />
+
+                <!--  Description  -->
+                <Label
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    LineHeight="1.2"
+                    Style="{StaticResource TxtBody2_1}"
+                    Text="{Binding CurrentProduct.Description}" />
+
+                <!--  Price  -->
+                <VerticalStackLayout
+                    Grid.Row="4"
+                    Grid.Column="0"
+                    Spacing="8">
+                    <Label
+                        Style="{StaticResource TxtBody1_2}"
+                        Text="Price:" />
+
+                    <Label
+                        Style="{StaticResource TxtHeadline6_4}"
+                        Text="{Binding CurrentProduct.Price, StringFormat='$ {0:N0}'}" />
+                </VerticalStackLayout>
+
+                <!--  Buy Product Button  -->
+                <Border
+                    Grid.Row="4"
+                    Grid.Column="2"
+                    Padding="10,0"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource primary_color_light},
+                                                      Dark={StaticResource primary_color_dark}}"
+                    HeightRequest="48"
+                    StrokeShape="{RoundRectangle CornerRadius='8,8,8,8'}"
+                    StrokeThickness="0"
+                    WidthRequest="134">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding AddCurrentProductToShoppingCartCommand}" />
+                    </Border.GestureRecognizers>
+                    <Border.Behaviors>
+                        <mct:TouchBehavior
+                            DefaultAnimationDuration="250"
+                            DefaultAnimationEasing="{x:Static Easing.CubicInOut}"
+                            PressedOpacity="0.6"
+                            PressedScale="0.8" />
+                    </Border.Behaviors>
+
+                    <HorizontalStackLayout Spacing="6">
+                        <Image
+                            HeightRequest="21"
+                            Source="{StaticResource icon_add_shopping_cart_outline}"
+                            VerticalOptions="Center" />
+
+                        <Label
+                            Style="{StaticResource TxtSubtitle1_2}"
+                            Text="Add to Cart"
+                            VerticalTextAlignment="Center" />
+                    </HorizontalStackLayout>
+                </Border>
+
+            </Grid>
+        </Border>
+        <!--#endregion-->
+
+    </Grid>
+
+</ContentPage>

@@ -13,4 +13,6 @@ static class CustomFontIcons
     public const string icon_favorite_outline = "\ue804";
     public const string icon_add_shopping_cart_outline = "\ue805";
     public const string icon_delete = "\ue806";
+    public const string icon_no_image_available = "\ue807";
+    public const string icon_brand = "\ue808";
 }

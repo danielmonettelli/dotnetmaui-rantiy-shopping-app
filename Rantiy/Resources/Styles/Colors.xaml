@@ -4,41 +4,45 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
-    <Color x:Key="background_dark">#FF161616</Color>
-    <Color x:Key="background_light">#FFEDEDED</Color>
-    <Color x:Key="gray_10_light">#FF676873</Color>
-    <Color x:Key="gray_11_dark">#FFB2B3BD</Color>
-    <Color x:Key="gray_11_light">#FF4B4C54</Color>
-    <Color x:Key="gray_12_dark">#FFEEEEF0</Color>
-    <Color x:Key="gray_12_light">#FF1E1F24</Color>
-    <Color x:Key="gray_1_dark">#FF161618</Color>
-    <Color x:Key="gray_1_light">#FFE8E9EA</Color>
-    <Color x:Key="gray_2_dark">#FF1C1D1F</Color>
-    <Color x:Key="gray_2_light">#FFE4E4E6</Color>
-    <Color x:Key="gray_3_dark">#FF242528</Color>
-    <Color x:Key="gray_3_light">#FFD9DADD</Color>
-    <Color x:Key="gray_4_dark">#FF2A2B2F</Color>
-    <Color x:Key="gray_4_light">#FFD0D1D5</Color>
-    <Color x:Key="gray_5_dark">#FF313237</Color>
-    <Color x:Key="gray_5_light">#FFC7C8CE</Color>
-    <Color x:Key="gray_7_light">#FFB2B4BC</Color>
-    <Color x:Key="gray_8_dark">#FF5F606A</Color>
-    <Color x:Key="gray_8_light">#FF9EA0AB</Color>
-    <Color x:Key="orange_10_dark">#FFF27F00</Color>
-    <Color x:Key="orange_10_light">#FF9A3D00</Color>
-    <Color x:Key="orange_11_dark">#FFFFA354</Color>
-    <Color x:Key="orange_11_light">#FF9B3D00</Color>
-    <Color x:Key="orange_12_dark">#FFFFDFC8</Color>
-    <Color x:Key="orange_12_light">#FF533020</Color>
-    <Color x:Key="orange_1_light">#FFEBE9E8</Color>
-    <Color x:Key="orange_3_dark">#FF331F0F</Color>
-    <Color x:Key="orange_3_light">#FFF2D5C8</Color>
-    <Color x:Key="orange_5_light">#FFF4B79C</Color>
-    <Color x:Key="orange_8_dark">#FF9C5D29</Color>
-    <Color x:Key="orange_8_light">#FFCC7B56</Color>
-    <Color x:Key="orange_9_dark">#FFFF8A00</Color>
-    <Color x:Key="orange_9_light">#FFAF4700</Color>
-    <Color x:Key="primary_dark">#FF141414</Color>
-    <Color x:Key="primary_light">#FFFFFFFF</Color>
+    <Color x:Key="background_color_dark">#FF161616</Color>
+    <Color x:Key="background_color_light">#FFEDEDED</Color>
+    <Color x:Key="black_color">#FF000000</Color>
+    <Color x:Key="cart_item_surface_color_dark">#FF242528</Color>
+    <Color x:Key="cart_item_surface_color_light">#FFD9DADD</Color>
+    <Color x:Key="highlight_text_color_dark">#FFFDA31B</Color>
+    <Color x:Key="highlight_text_color_light">#FFBB6D00</Color>
+    <Color x:Key="icon_container_delete_color_dark">#FF313237</Color>
+    <Color x:Key="icon_container_delete_color_light">#FFC7C8CE</Color>
+    <Color x:Key="icon_container_primary_color_dark">#FF444344</Color>
+    <Color x:Key="internal_surface_color_dark">#FF2A2B2F</Color>
+    <Color x:Key="internal_surface_color_light">#FFD0D1D5</Color>
+    <Color x:Key="pre_load_brand_icon_color_dark">#FF797B86</Color>
+    <Color x:Key="pre_load_brand_icon_color_light">#FF71737D</Color>
+    <Color x:Key="primary_color_dark">#FFFF8A00</Color>
+    <Color x:Key="primary_color_light">#FFC97008</Color>
+    <Color x:Key="primary_navigation_color_dark">#FF141414</Color>
+    <Color x:Key="product_item_surface_color_dark">#FF1C1D1F</Color>
+    <Color x:Key="product_item_surface_color_light">#FFE4E4E6</Color>
+    <Color x:Key="selected_item_color_light">#FFEC961C</Color>
+    <Color x:Key="separator_color_dark">#FF1D1D1D</Color>
+    <Color x:Key="separator_color_light">#FFE6E6E6</Color>
+    <Color x:Key="tab_bar_unselected_color_dark">#FF5F606A</Color>
+    <Color x:Key="tab_bar_unselected_color_light">#FFB2B4BC</Color>
+    <Color x:Key="text_container_color_dark">#FF4D4D4D</Color>
+    <Color x:Key="text_primary_color_dark">#FFEEEEF0</Color>
+    <Color x:Key="text_primary_color_light">#FF1E1F24</Color>
+    <Color x:Key="text_secondary_color_dark">#FFB2B3BD</Color>
+    <Color x:Key="text_secondary_color_light">#FF4B4C54</Color>
+    <Color x:Key="unselected_item_color_dark">#FF2E2E2E</Color>
+    <Color x:Key="unselected_item_color_light">#FFE0E0E0</Color>
+    <Color x:Key="white_color">#FFFFFFFF</Color>
+
+    <SolidColorBrush
+        x:Key="black_color_brush"
+        Color="{StaticResource black_color}" />
+
+    <SolidColorBrush
+        x:Key="white_color_brush"
+        Color="{StaticResource white_color}" />
 
 </ResourceDictionary>

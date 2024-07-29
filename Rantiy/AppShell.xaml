@@ -5,13 +5,14 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:Rantiy"
     xmlns:mct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:view="clr-namespace:Rantiy.Views"
     Title="Rantiy"
     Shell.FlyoutBehavior="Disabled">
 
     <Shell.Behaviors>
         <mct:StatusBarBehavior
-            StatusBarColor="{AppThemeBinding Light='White',
-                                             Dark='#141414'}"
+            StatusBarColor="{AppThemeBinding Light={StaticResource white_color},
+                                             Dark={StaticResource primary_navigation_color_dark}}"
             StatusBarStyle="{AppThemeBinding Light='DarkContent',
                                              Dark='LightContent'}" />
     </Shell.Behaviors>
@@ -20,17 +21,17 @@
         <Tab
             Title="Home"
             Icon="{StaticResource shell_icon_home}">
-            <ShellContent ContentTemplate="{DataTemplate local:MainPage}" />
+            <ShellContent ContentTemplate="{DataTemplate view:HomePage}" />
         </Tab>
         <Tab
             Title="Cart"
             Icon="{StaticResource shell_icon_shopping_cart_solid}">
-            <ShellContent ContentTemplate="{DataTemplate local:MainPage}" />
+            <ShellContent ContentTemplate="{DataTemplate view:ShoppingCartPage}" />
         </Tab>
         <Tab
             Title="Favorites"
             Icon="{StaticResource shell_icon_favorite_solid}">
-            <ShellContent ContentTemplate="{DataTemplate local:MainPage}" />
+            <ShellContent ContentTemplate="{DataTemplate view:FavoritesPage}" />
         </Tab>
     </TabBar>
 
