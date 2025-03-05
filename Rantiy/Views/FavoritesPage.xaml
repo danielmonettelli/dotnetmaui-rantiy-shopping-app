@@ -6,8 +6,7 @@
     xmlns:Model="clr-namespace:Rantiy.Models"
     xmlns:ReusableControl="clr-namespace:Rantiy.ReusableControls;assembly=Rantiy"
     xmlns:ViewModel="clr-namespace:Rantiy.ViewModels"
-    x:DataType="ViewModel:FavoritesViewModel"
-    SizeChanged="FavoritesPage_SizeChanged">
+    x:DataType="ViewModel:FavoritesViewModel">
 
     <Shell.TitleView>
         <ReusableControl:TitleViewReusable />
@@ -46,7 +45,7 @@
 
                             <Image
                                 Aspect="AspectFill"
-                                Source="{Binding Images[0]}" />
+                                Source="{Binding Image}" />
                         </Border>
 
                         <!--  Free Shipping  -->

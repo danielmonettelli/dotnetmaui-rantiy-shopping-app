@@ -49,7 +49,7 @@
                                 StrokeThickness="0">
                                 <Image
                                     Aspect="AspectFill"
-                                    Source="{Binding Images[0]}"
+                                    Source="{Binding Image}"
                                     WidthRequest="100" />
                             </Border>
 

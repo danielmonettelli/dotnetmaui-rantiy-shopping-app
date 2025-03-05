@@ -5,7 +5,13 @@ public partial class FavoritesPage : ContentPage
     public FavoritesPage()
     {
         InitializeComponent();
+        SizeChanged += FavoritesPage_SizeChanged;
+    }
 
+    private void FavoritesPage_SizeChanged(object? sender, EventArgs e)
+    {
+        Debug.WriteLine($"Width: {Width}");
+        App.FavoritesViewModel.Columns = (int)(Width / 178);
     }
 
     protected override void OnAppearing()
@@ -13,10 +19,5 @@ public partial class FavoritesPage : ContentPage
         base.OnAppearing();
 
         BindingContext = App.FavoritesViewModel;
-    }
-
-    private void FavoritesPage_SizeChanged(object sender, EventArgs e)
-    {
-        App.FavoritesViewModel.Columns = (int)(Width / 178);
     }
 }

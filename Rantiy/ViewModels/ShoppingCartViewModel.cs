@@ -8,7 +8,7 @@ public partial class ShoppingCartViewModel : BaseViewModel
 
     public decimal TotalPrice
     {
-        get { return ShoppingCartProducts.Sum(product => product.Price); }
+        get { return (decimal)ShoppingCartProducts.Sum(product => product.Price); }
     }
 
 

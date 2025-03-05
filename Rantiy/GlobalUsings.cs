@@ -10,6 +10,7 @@ global using Rantiy.Services;
 global using Rantiy.ViewModels;
 global using Rantiy.Views;
 global using System.Collections.ObjectModel;
+global using System.Diagnostics;
 global using System.Globalization;
 global using System.Net.Http.Headers;
 global using System.Text.Json;

@@ -22,10 +22,10 @@ public partial class HomeViewModel : BaseViewModel
     }
 
     [ObservableProperty]
-    private List<Category> categories;
+    private List<string> categories;
 
     [ObservableProperty]
-    private Category selectedCategory;
+    private string selectedCategory;
 
     [ObservableProperty]
     private List<Product> filteredProducts;
@@ -34,25 +34,20 @@ public partial class HomeViewModel : BaseViewModel
     private Product selectedFilteredProduct;
 
     [ObservableProperty]
-    private string searchQuery;
-
-    [ObservableProperty]
     private bool isIconFavorite;
 
     [ObservableProperty]
     private string favoriteIconSource = "icon_favorite_outline";
 
-    partial void OnSelectedCategoryChanged(Category value)
+    partial void OnSelectedCategoryChanged(string value)
     {
-        // If "All" is selected, load all products
-        if (value.Id == 0)
+        if (value == "All")
         {
             LoadAllProductsAsync();
         }
         else
         {
-            // Otherwise, filter products by the selected category
-            FilterProductsByCategoryAsync(value.Id);
+            FilterProductsByCategoryAsync(value);
         }
     }
 
@@ -62,7 +57,7 @@ public partial class HomeViewModel : BaseViewModel
         Categories = await _fakeStoreService.GetCategories();
 
         // Insert "All" option at the beginning of the categories list
-        Categories.Insert(0, new Category { Id = 0, Name = "All" });
+        Categories.Insert(0, "All");
 
         // Set "All" as the initially selected category
         SelectedCategory = Categories.First();
@@ -74,12 +69,8 @@ public partial class HomeViewModel : BaseViewModel
     public async Task LoadAllProductsAsync()
         => FilteredProducts = await _fakeStoreService.GetAllProducts();
 
-    public async Task FilterProductsByCategoryAsync(int categoryId)
-        => FilteredProducts = await _fakeStoreService.GetProductsByCategory(categoryId);
-
-    [RelayCommand]
-    public async Task SearchProductsByTitleAsync()
-        => FilteredProducts = await _fakeStoreService.SearchProductsByTitle(SearchQuery);
+    public async Task FilterProductsByCategoryAsync(string categoryName)
+        => FilteredProducts = await _fakeStoreService.GetProductsByCategory(categoryName);
 
     [RelayCommand]
     public async Task SelectedFilteredProductAsync()

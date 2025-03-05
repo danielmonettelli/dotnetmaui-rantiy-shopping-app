@@ -9,23 +9,29 @@ public partial class Product : ObservableObject
     public string Title { get; set; }
 
     [JsonPropertyName("price")]
-    public int Price { get; set; }
+    public float Price { get; set; }
 
     [JsonPropertyName("description")]
     public string Description { get; set; }
 
-    [JsonPropertyName("images")]
-    public List<string> Images { get; set; }
-
-    [JsonPropertyName("creationAt")]
-    public DateTime CreationAt { get; set; }
-
-    [JsonPropertyName("updatedAt")]
-    public DateTime UpdatedAt { get; set; }
-
     [JsonPropertyName("category")]
-    public Category Category { get; set; }
+    public string Category { get; set; }
+
+    [JsonPropertyName("image")]
+    public string Image { get; set; }
+
+    [JsonPropertyName("rating")]
+    public Rating Rating { get; set; }
 
     [ObservableProperty]
     private bool isFavorite;
+}
+
+public class Rating
+{
+    [JsonPropertyName("rate")]
+    public float Rate { get; set; }
+
+    [JsonPropertyName("count")]
+    public int Count { get; set; }
 }

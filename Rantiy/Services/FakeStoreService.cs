@@ -13,7 +13,7 @@ public class FakeStoreService : IFakeStoreService
         _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
     }
 
-    public async Task<List<Category>> GetCategories()
+    public async Task<List<string>> GetCategories()
     {
         HttpResponseMessage response = await _httpClient.GetAsync(APIConstants.CategoriesEndPoint);
 
@@ -21,7 +21,7 @@ public class FakeStoreService : IFakeStoreService
         {
             string content = await response.Content.ReadAsStringAsync();
 
-            return JsonSerializer.Deserialize<List<Category>>(content);
+            return JsonSerializer.Deserialize<List<string>>(content);
         }
 
         return default;
@@ -41,23 +41,9 @@ public class FakeStoreService : IFakeStoreService
         return default;
     }
 
-    public async Task<List<Product>> GetProductsByCategory(int categoryId)
+    public async Task<List<Product>> GetProductsByCategory(string categoryName)
     {
-        HttpResponseMessage response = await _httpClient.GetAsync($"{APIConstants.FilterProductsByCategoryEndPoint}{categoryId}");
-
-        if (response.IsSuccessStatusCode)
-        {
-            string content = await response.Content.ReadAsStringAsync();
-
-            return JsonSerializer.Deserialize<List<Product>>(content);
-        }
-
-        return default;
-    }
-
-    public async Task<List<Product>> SearchProductsByTitle(string productTitle)
-    {
-        HttpResponseMessage response = await _httpClient.GetAsync($"{APIConstants.FilterProductsByTitleEndPoint}{productTitle}");
+        HttpResponseMessage response = await _httpClient.GetAsync($"{APIConstants.FilterProductsByCategoryEndPoint}{categoryName}");
 
         if (response.IsSuccessStatusCode)
         {

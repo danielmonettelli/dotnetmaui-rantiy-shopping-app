@@ -85,13 +85,13 @@
                     Orientation="Horizontal" />
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="Model:Category">
+                <DataTemplate x:DataType="x:String">
                     <Controls:MyBorder1
                         Padding="24,16"
                         StrokeShape="{RoundRectangle CornerRadius='8,8,8,8'}">
                         <Label
                             Style="{StaticResource TxtSubtitle1_1}"
-                            Text="{Binding Name}" />
+                            Text="{Binding .}" />
                     </Controls:MyBorder1>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
@@ -139,7 +139,7 @@
 
                                 <Image
                                     Aspect="AspectFill"
-                                    Source="{Binding Images[0]}" />
+                                    Source="{Binding Image}" />
                             </Border>
 
                             <!--  Free Shipping  -->

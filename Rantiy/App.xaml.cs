@@ -2,8 +2,8 @@
 
 public partial class App : Application
 {
-    private static Lazy<FavoritesViewModel> _favoritesViewModel = new(() => new FavoritesViewModel());
-    private static Lazy<ShoppingCartViewModel> _shoppingCartViewModel = new(() => new ShoppingCartViewModel());
+    private static readonly Lazy<FavoritesViewModel> _favoritesViewModel = new(() => new FavoritesViewModel());
+    private static readonly Lazy<ShoppingCartViewModel> _shoppingCartViewModel = new(() => new ShoppingCartViewModel());
 
     public static FavoritesViewModel FavoritesViewModel => _favoritesViewModel.Value;
     public static ShoppingCartViewModel ShoppingCartViewModel => _shoppingCartViewModel.Value;
@@ -11,15 +11,18 @@ public partial class App : Application
     public App()
     {
         InitializeComponent();
+    }
 
-        MainPage = new AppShell();
+    protected override Window CreateWindow(IActivationState? activationState)
+    {
+        return new Window(new AppShell());
     }
 
     protected override void OnStart()
     {
         base.OnStart();
 
-        var favoritesViewModel = FavoritesViewModel;
-        var shoppingCartViewModel = ShoppingCartViewModel;
+        _ = FavoritesViewModel;
+        _ = ShoppingCartViewModel;
     }
 }

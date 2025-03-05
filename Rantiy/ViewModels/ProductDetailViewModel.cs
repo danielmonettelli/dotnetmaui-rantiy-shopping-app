@@ -19,7 +19,7 @@ public partial class ProductDetailViewModel : BaseViewModel
     partial void OnCurrentProductChanged(Product value)
     {
         // Update the list of image URLs based on the current product.
-        ProductImageUrls = value.Images;
+        ProductImageUrls = new List<string> { value.Image };
 
         // Set the initially selected image URL to the first in the list.
         SelectedProductImageUrl = ProductImageUrls.First();
