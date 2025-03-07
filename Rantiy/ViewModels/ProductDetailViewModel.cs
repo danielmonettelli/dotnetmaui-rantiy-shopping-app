@@ -37,7 +37,7 @@ public partial class ProductDetailViewModel : BaseViewModel
     public void AddCurrentProductToShoppingCart()
     {
         // Send the current product to the shopping cart page for update.
-        WeakReferenceMessenger.Default.Send(CurrentProduct);
+        _ = WeakReferenceMessenger.Default.Send(CurrentProduct);
     }
 
     [RelayCommand]
@@ -53,15 +53,15 @@ public partial class ProductDetailViewModel : BaseViewModel
         {
             // Cambiar el estado de favorito del producto
             CurrentProduct.IsFavorite = !CurrentProduct.IsFavorite;
-            
+
             // Actualizar el icono directamente basado en el estado del producto
             FavoriteIconSource = CurrentProduct.IsFavorite ? "icon_favorite_solid" : "icon_favorite_outline";
-            
+
             // Notificar el cambio para que la UI se actualice
             OnPropertyChanged(nameof(CurrentProduct));
-            
+
             // Enviar mensaje para sincronizar con otras páginas
-            WeakReferenceMessenger.Default.Send(new FavoriteProductMessage(CurrentProduct, CurrentProduct.IsFavorite));
+            _ = WeakReferenceMessenger.Default.Send(new FavoriteProductMessage(CurrentProduct, CurrentProduct.IsFavorite));
         }
     }
 

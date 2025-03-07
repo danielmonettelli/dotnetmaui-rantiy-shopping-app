@@ -3,7 +3,7 @@
 public partial class FavoritesViewModel : BaseViewModel, IRecipient<FavoriteProductMessage>
 {
     [ObservableProperty]
-    private ObservableCollection<Product> favoriteProducts = new();
+    private ObservableCollection<Product> favoriteProducts = [];
 
     [ObservableProperty]
     private int columns = 2;
@@ -20,7 +20,7 @@ public partial class FavoritesViewModel : BaseViewModel, IRecipient<FavoriteProd
         if (message.IsFavorite)
         {
             // Check if product with same ID already exists
-            var existingProduct = FavoriteProducts.FirstOrDefault(p => p.Id == message.CurrentProduct.Id);
+            Product? existingProduct = FavoriteProducts.FirstOrDefault(p => p.Id == message.CurrentProduct.Id);
             if (existingProduct == null)
             {
                 FavoriteProducts.Add(message.CurrentProduct);
@@ -30,10 +30,10 @@ public partial class FavoritesViewModel : BaseViewModel, IRecipient<FavoriteProd
         else
         {
             // Find product by ID and remove if it exists
-            var productToRemove = FavoriteProducts.FirstOrDefault(p => p.Id == message.CurrentProduct.Id);
+            Product? productToRemove = FavoriteProducts.FirstOrDefault(p => p.Id == message.CurrentProduct.Id);
             if (productToRemove != null)
             {
-                FavoriteProducts.Remove(productToRemove);
+                _ = FavoriteProducts.Remove(productToRemove);
                 OnPropertyChanged(nameof(FavoriteProducts));
             }
         }

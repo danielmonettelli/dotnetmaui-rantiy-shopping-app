@@ -4,12 +4,9 @@ public partial class ShoppingCartViewModel : BaseViewModel
 {
     // Observable collection of products in the shopping cart
     [ObservableProperty]
-    private ObservableCollection<Product> shoppingCartProducts = new();
+    private ObservableCollection<Product> shoppingCartProducts = [];
 
-    public decimal TotalPrice
-    {
-        get { return (decimal)ShoppingCartProducts.Sum(product => product.Price); }
-    }
+    public decimal TotalPrice => (decimal)ShoppingCartProducts.Sum(product => product.Price);
 
 
     public ShoppingCartViewModel()
@@ -40,7 +37,7 @@ public partial class ShoppingCartViewModel : BaseViewModel
     public void RemoveProduct(Product product)
     {
         // Remove the product from the shopping cart
-        ShoppingCartProducts.Remove(product);
+        _ = ShoppingCartProducts.Remove(product);
 
         OnPropertyChanged(nameof(ShoppingCartProducts));
     }

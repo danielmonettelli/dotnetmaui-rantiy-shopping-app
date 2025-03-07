@@ -6,7 +6,7 @@ public class BooleanToFavoriteIconConverter : IValueConverter
     {
         string resourceName = (value is bool isFavorite && isFavorite) ? "icon_favorite_solid" : "icon_favorite_outline";
 
-        if (Application.Current.Resources.TryGetValue(resourceName, out var resource))
+        if (Application.Current.Resources.TryGetValue(resourceName, out object? resource))
         {
             return resource;
         }

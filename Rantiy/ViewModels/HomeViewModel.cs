@@ -3,22 +3,22 @@
 public partial class HomeViewModel : BaseViewModel
 {
     private readonly IFakeStoreService _fakeStoreService;
-    private Dictionary<string, bool> _favoriteProductsState = new Dictionary<string, bool>();
+    private readonly Dictionary<string, bool> _favoriteProductsState = [];
 
     public HomeViewModel(IFakeStoreService fakeStoreService)
     {
         _fakeStoreService = fakeStoreService;
 
-        LoadDataAsync();
+        _ = LoadDataAsync();
 
         WeakReferenceMessenger.Default.Register<FavoriteProductMessage>(this, (recipient, message) =>
         {
-            var product = FilteredProducts.FirstOrDefault(p => p.Title == message.CurrentProduct.Title);
+            Product? product = FilteredProducts.FirstOrDefault(p => p.Title == message.CurrentProduct.Title);
 
             if (product != null)
             {
                 product.IsFavorite = message.IsFavorite;
-                
+
                 // Almacenar el estado del favorito por título del producto
                 _favoriteProductsState[product.Title] = message.IsFavorite;
             }
@@ -47,11 +47,11 @@ public partial class HomeViewModel : BaseViewModel
     {
         if (value == "All")
         {
-            LoadAllProductsAsync();
+            _ = LoadAllProductsAsync();
         }
         else
         {
-            FilterProductsByCategoryAsync(value);
+            _ = FilterProductsByCategoryAsync(value);
         }
     }
 
@@ -68,7 +68,7 @@ public partial class HomeViewModel : BaseViewModel
 
         // Load and display all products by default
         FilteredProducts = await _fakeStoreService.GetAllProducts();
-        
+
         // Restaurar estado de favoritos
         RestoreFavoritesState();
     }
@@ -76,7 +76,7 @@ public partial class HomeViewModel : BaseViewModel
     public async Task LoadAllProductsAsync()
     {
         FilteredProducts = await _fakeStoreService.GetAllProducts();
-        
+
         // Restaurar estado de favoritos
         RestoreFavoritesState();
     }
@@ -84,7 +84,7 @@ public partial class HomeViewModel : BaseViewModel
     public async Task FilterProductsByCategoryAsync(string categoryName)
     {
         FilteredProducts = await _fakeStoreService.GetProductsByCategory(categoryName);
-        
+
         // Restaurar estado de favoritos
         RestoreFavoritesState();
     }
@@ -93,7 +93,7 @@ public partial class HomeViewModel : BaseViewModel
     {
         if (FilteredProducts != null)
         {
-            foreach (var product in FilteredProducts)
+            foreach (Product product in FilteredProducts)
             {
                 // Si hay un estado guardado para este producto, aplicarlo
                 if (_favoriteProductsState.TryGetValue(product.Title, out bool isFavorite))
@@ -128,7 +128,7 @@ public partial class HomeViewModel : BaseViewModel
             // Guardar el estado actual
             _favoriteProductsState[product.Title] = product.IsFavorite;
 
-            WeakReferenceMessenger.Default.Send(new FavoriteProductMessage(product, product.IsFavorite));
+            _ = WeakReferenceMessenger.Default.Send(new FavoriteProductMessage(product, product.IsFavorite));
 
             FavoriteIconSource = product.IsFavorite ? "icon_favorite_solid" : "icon_favorite_outline";
         }

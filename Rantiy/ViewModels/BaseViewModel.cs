@@ -6,7 +6,7 @@ public partial class BaseViewModel : ObservableObject
     private bool isBusy;
 
     [ObservableProperty]
-    private string title;
+    private string? title;
 
     [ObservableProperty]
     private int columns;

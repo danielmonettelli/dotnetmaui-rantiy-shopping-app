@@ -6,9 +6,10 @@ public class FakeStoreService : IFakeStoreService
 
     public FakeStoreService()
     {
-        _httpClient = new HttpClient();
-
-        _httpClient.BaseAddress = new Uri(APIConstants.APIBaseUrl);
+        _httpClient = new HttpClient
+        {
+            BaseAddress = new Uri(APIConstants.APIBaseUrl)
+        };
 
         _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
     }
