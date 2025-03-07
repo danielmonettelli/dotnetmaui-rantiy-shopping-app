@@ -49,13 +49,19 @@ public partial class ProductDetailViewModel : BaseViewModel
     [RelayCommand]
     private void ToggleFavorite()
     {
-        bool isCurrentlyFavorite = FavoriteIconSource == "icon_favorite_solid";
-        FavoriteIconSource = isCurrentlyFavorite ? "icon_favorite_outline" : "icon_favorite_solid";
-
         if (CurrentProduct != null)
         {
-            CurrentProduct.IsFavorite = !isCurrentlyFavorite;
-            WeakReferenceMessenger.Default.Send(new FavoriteProductMessage(CurrentProduct, !isCurrentlyFavorite));
+            // Cambiar el estado de favorito del producto
+            CurrentProduct.IsFavorite = !CurrentProduct.IsFavorite;
+            
+            // Actualizar el icono directamente basado en el estado del producto
+            FavoriteIconSource = CurrentProduct.IsFavorite ? "icon_favorite_solid" : "icon_favorite_outline";
+            
+            // Notificar el cambio para que la UI se actualice
+            OnPropertyChanged(nameof(CurrentProduct));
+            
+            // Enviar mensaje para sincronizar con otras páginas
+            WeakReferenceMessenger.Default.Send(new FavoriteProductMessage(CurrentProduct, CurrentProduct.IsFavorite));
         }
     }
 

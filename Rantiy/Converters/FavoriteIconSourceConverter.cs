@@ -4,15 +4,26 @@ public class FavoriteIconSourceConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        string resourceName = value as string;
+        string iconName = value as string;
 
-        if (Application.Current.Resources.TryGetValue(resourceName, out var resource))
+        if (string.IsNullOrEmpty(iconName))
         {
-            return resource;
+            return "icon_favorite_outline";
         }
 
-        // Return a default icon if resource not found
-        return "icon_default_outline";
+        // Verificar si el nombre ya incluye el prefijo "icon_"
+        if (iconName.StartsWith("icon_"))
+        {
+            if (Application.Current.Resources.TryGetValue(iconName, out var resource))
+            {
+                return resource;
+            }
+        }
+
+        // Si el recurso no se encuentra, devolver un icono predeterminado
+        return Application.Current.Resources.TryGetValue("icon_favorite_outline", out var defaultResource) 
+            ? defaultResource 
+            : "icon_favorite_outline";
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

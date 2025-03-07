@@ -47,7 +47,7 @@
             </Style>
             <!--#endregion-->
 
-            <Converter:FavoriteIconSourceConverter x:Key="FavoriteIconSourceConverter" />
+            <Converter:BooleanToFavoriteIconConverter x:Key="BooleanToFavoriteIconConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -95,38 +95,26 @@
             </ImageButton>
 
             <!--  Favorite Buttton  -->
-            <Border
+            <ImageButton
                 x:Name="FavoriteButton"
                 Grid.Column="2"
+                Aspect="Center"
                 BackgroundColor="{AppThemeBinding Light={StaticResource white_color},
                                                   Dark={StaticResource icon_container_primary_color_dark}}"
+                Command="{Binding ToggleFavoriteCommand}"
+                CornerRadius="20"
                 HeightRequest="40"
-                StrokeShape="{RoundRectangle CornerRadius='20,20,20,20'}"
-                StrokeThickness="0"
+                Source="{Binding CurrentProduct.IsFavorite, Converter={StaticResource BooleanToFavoriteIconConverter}}"
                 WidthRequest="40">
-                <Border.Behaviors>
-                    <mct:TouchBehavior
-                        Command="{Binding ToggleFavoriteCommand}"
-                        DefaultAnimationDuration="250"
-                        DefaultAnimationEasing="{x:Static Easing.CubicInOut}"
-                        PressedOpacity="0.6"
-                        PressedScale="0.8" />
-                </Border.Behaviors>
-                <Border.Shadow>
+                <ImageButton.Shadow>
                     <Shadow
                         Brush="{AppThemeBinding Light={StaticResource black_color_brush},
                                                 Dark={StaticResource white_color_brush}}"
                         Opacity="0.45"
                         Radius="10"
                         Offset="0,4" />
-                </Border.Shadow>
-
-                <Image
-                    HeightRequest="16"
-                    HorizontalOptions="Center"
-                    Source="{Binding FavoriteIconSource, Converter={StaticResource FavoriteIconSourceConverter}}"
-                    VerticalOptions="Center" />
-            </Border>
+                </ImageButton.Shadow>
+            </ImageButton>
         </Grid>
         <!--#endregion-->
 

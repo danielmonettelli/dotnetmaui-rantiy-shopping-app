@@ -6,7 +6,8 @@
     xmlns:Model="clr-namespace:Rantiy.Models"
     xmlns:ReusableControl="clr-namespace:Rantiy.ReusableControls;assembly=Rantiy"
     xmlns:ViewModel="clr-namespace:Rantiy.ViewModels"
-    x:DataType="ViewModel:FavoritesViewModel">
+    x:DataType="ViewModel:FavoritesViewModel"
+    SizeChanged="FavoritesPage_SizeChanged">
 
     <Shell.TitleView>
         <ReusableControl:TitleViewReusable />

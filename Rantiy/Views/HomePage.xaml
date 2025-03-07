@@ -149,7 +149,7 @@
                                 Padding="4"
                                 BackgroundColor="{AppThemeBinding Light={StaticResource white_color},
                                                                   Dark={StaticResource text_container_color_dark}}"
-                                HorizontalOptions="StartAndExpand"
+                                HorizontalOptions="Start"
                                 StrokeThickness="0">
                                 <Label
                                     HorizontalTextAlignment="Start"
@@ -214,8 +214,8 @@
                 <!--  Empty View for No Products  -->
                 <ContentView>
                     <StackLayout
-                        HorizontalOptions="CenterAndExpand"
-                        VerticalOptions="CenterAndExpand">
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center">
                         <Label
                             Style="{StaticResource TxtBody1_2}"
                             Text="There are no products in this Category" />

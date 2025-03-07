@@ -3,6 +3,7 @@
 public partial class HomeViewModel : BaseViewModel
 {
     private readonly IFakeStoreService _fakeStoreService;
+    private Dictionary<string, bool> _favoriteProductsState = new Dictionary<string, bool>();
 
     public HomeViewModel(IFakeStoreService fakeStoreService)
     {
@@ -17,6 +18,9 @@ public partial class HomeViewModel : BaseViewModel
             if (product != null)
             {
                 product.IsFavorite = message.IsFavorite;
+                
+                // Almacenar el estado del favorito por título del producto
+                _favoriteProductsState[product.Title] = message.IsFavorite;
             }
         });
     }
@@ -64,13 +68,41 @@ public partial class HomeViewModel : BaseViewModel
 
         // Load and display all products by default
         FilteredProducts = await _fakeStoreService.GetAllProducts();
+        
+        // Restaurar estado de favoritos
+        RestoreFavoritesState();
     }
 
     public async Task LoadAllProductsAsync()
-        => FilteredProducts = await _fakeStoreService.GetAllProducts();
+    {
+        FilteredProducts = await _fakeStoreService.GetAllProducts();
+        
+        // Restaurar estado de favoritos
+        RestoreFavoritesState();
+    }
 
     public async Task FilterProductsByCategoryAsync(string categoryName)
-        => FilteredProducts = await _fakeStoreService.GetProductsByCategory(categoryName);
+    {
+        FilteredProducts = await _fakeStoreService.GetProductsByCategory(categoryName);
+        
+        // Restaurar estado de favoritos
+        RestoreFavoritesState();
+    }
+
+    private void RestoreFavoritesState()
+    {
+        if (FilteredProducts != null)
+        {
+            foreach (var product in FilteredProducts)
+            {
+                // Si hay un estado guardado para este producto, aplicarlo
+                if (_favoriteProductsState.TryGetValue(product.Title, out bool isFavorite))
+                {
+                    product.IsFavorite = isFavorite;
+                }
+            }
+        }
+    }
 
     [RelayCommand]
     public async Task SelectedFilteredProductAsync()
@@ -92,6 +124,9 @@ public partial class HomeViewModel : BaseViewModel
         if (product != null)
         {
             product.IsFavorite = !product.IsFavorite;
+
+            // Guardar el estado actual
+            _favoriteProductsState[product.Title] = product.IsFavorite;
 
             WeakReferenceMessenger.Default.Send(new FavoriteProductMessage(product, product.IsFavorite));
 
