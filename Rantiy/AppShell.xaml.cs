@@ -6,9 +6,10 @@ public partial class AppShell : Shell
     {
         InitializeComponent();
 
-        Routing.RegisterRoute(nameof(HomePage), typeof(HomePage));
-        Routing.RegisterRoute(nameof(ShoppingCartPage), typeof(ShoppingCartPage));
-        Routing.RegisterRoute(nameof(FavoritesPage), typeof(FavoritesPage));
-        Routing.RegisterRoute(nameof(ProductDetailPage), typeof(ProductDetailPage));
+        // No necesitamos registrar las páginas principales de las pestañas
+        // ya que se definen directamente en AppShell.xaml
+        
+        // Registrar solo las rutas para navegación detallada
+        Routing.RegisterRoute("details", typeof(ProductDetailPage));
     }
 }

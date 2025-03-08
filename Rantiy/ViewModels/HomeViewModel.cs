@@ -4,6 +4,8 @@ public partial class HomeViewModel : BaseViewModel
 {
     private readonly IFakeStoreService _fakeStoreService;
     private readonly Dictionary<string, bool> _favoriteProductsState = [];
+    private bool _isNavigating = false;
+    private readonly SemaphoreSlim _navigationSemaphore = new(1, 1);
 
     public HomeViewModel(IFakeStoreService fakeStoreService)
     {
@@ -34,8 +36,21 @@ public partial class HomeViewModel : BaseViewModel
     [ObservableProperty]
     private List<Product> filteredProducts;
 
-    [ObservableProperty]
-    private Product selectedFilteredProduct;
+    private Product _selectedFilteredProduct;
+    public Product SelectedFilteredProduct
+    {
+        get => _selectedFilteredProduct;
+        set
+        {
+            if (SetProperty(ref _selectedFilteredProduct, value) && value != null)
+            {
+                _ = SelectedFilteredProductAsync();
+                // Importante: Limpiamos la selección inmediatamente después de iniciar la navegación
+                _selectedFilteredProduct = null;
+                OnPropertyChanged(nameof(SelectedFilteredProduct));
+            }
+        }
+    }
 
     [ObservableProperty]
     private bool isIconFavorite;
@@ -104,18 +119,42 @@ public partial class HomeViewModel : BaseViewModel
         }
     }
 
-    [RelayCommand]
     public async Task SelectedFilteredProductAsync()
     {
-        Dictionary<string, object> productParameter = new()
+        if (SelectedFilteredProduct == null)
+            return;
+            
+        // Usar un semáforo para evitar múltiples navegaciones simultáneas
+        if (!await _navigationSemaphore.WaitAsync(0)) // Intentar adquirir el semáforo sin esperar
         {
-            [nameof(SelectedFilteredProduct)] = SelectedFilteredProduct
-        };
+            // Si no podemos adquirir el semáforo, significa que ya estamos navegando
+            return;
+        }
 
-        await Shell.Current.GoToAsync(
-            state: nameof(ProductDetailPage),
-            animate: true,
-            parameters: productParameter);
+        try
+        {
+            if (_isNavigating) // Verificación adicional
+                return;
+
+            _isNavigating = true;
+            
+            Dictionary<string, object> productParameter = new()
+            {
+                [nameof(SelectedFilteredProduct)] = SelectedFilteredProduct
+            };
+
+            await Shell.Current.GoToAsync(
+                state: "details",
+                animate: true,
+                parameters: productParameter);
+        }
+        finally
+        {
+            // Permitir otra navegación después de un pequeño retraso
+            await Task.Delay(500);
+            _isNavigating = false;
+            _navigationSemaphore.Release();
+        }
     }
 
     [RelayCommand]

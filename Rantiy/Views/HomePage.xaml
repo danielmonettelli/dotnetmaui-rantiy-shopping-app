@@ -17,11 +17,6 @@
         <ResourceDictionary>
             <Converter:BooleanToFavoriteIconConverter x:Key="BooleanToFavoriteIconConverter" />
 
-            <!--<mct:BoolToObjectConverter
-                x:Key="IsIconFavoriteConverter"
-                FalseObject="{StaticResource icon_favorite_outline}"
-                TrueObject="{StaticResource icon_favorite_solid}" />-->
-
             <!--#region Category List Style-->
             <Style TargetType="Controls:MyBorder1">
                 <Setter Property="VisualStateManager.VisualStateGroups">
@@ -106,10 +101,10 @@
 
         <!--#region Filtered Product List (Grid.Row="4")-->
         <CollectionView
+            x:Name="productsCollectionView"
             Grid.Row="4"
             ItemsSource="{Binding FilteredProducts}"
-            SelectedItem="{Binding SelectedFilteredProduct}"
-            SelectionChangedCommand="{Binding SelectedFilteredProductCommand}"
+            SelectedItem="{Binding SelectedFilteredProduct, Mode=TwoWay}"
             SelectionMode="Single">
             <CollectionView.ItemsLayout>
                 <GridItemsLayout
