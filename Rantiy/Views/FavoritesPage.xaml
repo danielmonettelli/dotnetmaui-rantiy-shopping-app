@@ -33,6 +33,11 @@
                     HeightRequest="250"
                     StrokeThickness="0"
                     WidthRequest="178">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModel:FavoritesViewModel}}, Path=RemoveFavoriteCommand}"
+                            CommandParameter="{Binding .}" />
+                    </Border.GestureRecognizers>
                     <Grid
                         Padding="4,0,4,16"
                         RowDefinitions="*, Auto, 8, Auto, 8, Auto">
@@ -56,7 +61,7 @@
                             Padding="4"
                             BackgroundColor="{AppThemeBinding Light={StaticResource white_color},
                                                               Dark={StaticResource text_container_color_dark}}"
-                            HorizontalOptions="StartAndExpand"
+                            HorizontalOptions="Start"
                             StrokeThickness="0">
                             <Label
                                 HorizontalTextAlignment="Start"
@@ -88,29 +93,32 @@
                             VerticalTextAlignment="Center" />
 
                         <!--  Favorite Icon  -->
-                        <ImageButton
+                        <Border
                             Grid.Row="0"
                             Grid.RowSpan="3"
                             Margin="{OnPlatform WinUI='0,8,16,0',
                                                 Default='0,8,8,0'}"
-                            Aspect="Center"
                             BackgroundColor="{AppThemeBinding Light={StaticResource white_color},
                                                               Dark={StaticResource icon_container_primary_color_dark}}"
-                            CornerRadius="15"
                             HeightRequest="30"
                             HorizontalOptions="End"
-                            Source="{StaticResource icon_favorite_solid}"
                             VerticalOptions="Start"
                             WidthRequest="30">
-                            <ImageButton.Shadow>
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="15" />
+                            </Border.StrokeShape>
+                            <Border.Shadow>
                                 <Shadow
                                     Brush="{AppThemeBinding Light={StaticResource black_color_brush},
                                                             Dark={StaticResource white_color_brush}}"
                                     Opacity="0.45"
                                     Radius="10"
                                     Offset="0,4" />
-                            </ImageButton.Shadow>
-                        </ImageButton>
+                            </Border.Shadow>
+                            <Image
+                                Aspect="Center"
+                                Source="{StaticResource icon_favorite_solid}" />
+                        </Border>
                     </Grid>
                 </Border>
             </DataTemplate>
@@ -119,8 +127,8 @@
             <!--  Empty View for No Products  -->
             <ContentView>
                 <StackLayout
-                    HorizontalOptions="CenterAndExpand"
-                    VerticalOptions="CenterAndExpand">
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center">
                     <Label
                         Style="{StaticResource TxtBody1_2}"
                         Text="There are no products in favorites" />

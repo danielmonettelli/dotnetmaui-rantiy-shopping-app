@@ -38,4 +38,29 @@ public partial class FavoritesViewModel : BaseViewModel, IRecipient<FavoriteProd
             }
         }
     }
+
+    [RelayCommand]
+    public async Task RemoveFavoriteAsync(Product product)
+    {
+        if (product == null)
+            return;
+            
+        // Mostrar mensaje de confirmación
+        bool result = await Shell.Current.CurrentPage.DisplayAlert(
+            "Remove from Favorites", 
+            $"Are you sure you want to remove {product.Title} from your favorites?", 
+            "Yes", "No");
+
+        if (result)
+        {
+            // Cambiar el estado del producto a no favorito
+            product.IsFavorite = false;
+            
+            // Eliminar de la colección local de favoritos
+            FavoriteProducts.Remove(product);
+            
+            // Notificar a otras vistas del cambio
+            WeakReferenceMessenger.Default.Send(new FavoriteProductMessage(product, false));
+        }
+    }
 }
