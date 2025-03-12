@@ -7,6 +7,7 @@
     xmlns:Converter="clr-namespace:Rantiy.Converters"
     xmlns:Model="clr-namespace:Rantiy.Models"
     xmlns:ViewModel="clr-namespace:Rantiy.ViewModels"
+    xmlns:dx="http://schemas.devexpress.com/maui"
     xmlns:mct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:pages="clr-namespace:Rantiy.Views"
     x:DataType="ViewModel:HomeViewModel"
@@ -16,30 +17,7 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <Converter:BooleanToFavoriteIconConverter x:Key="BooleanToFavoriteIconConverter" />
-
-            <!--#region Category List Style-->
-            <Style TargetType="Controls:MyBorder1">
-                <Setter Property="VisualStateManager.VisualStateGroups">
-                    <VisualStateGroupList>
-                        <VisualStateGroup x:Name="CommonStates">
-                            <VisualState x:Name="Normal">
-                                <VisualState.Setters>
-                                    <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource unselected_item_color_light}, Dark={StaticResource unselected_item_color_dark}}" />
-                                    <Setter Property="StrokeThickness" Value="0" />
-                                </VisualState.Setters>
-                            </VisualState>
-
-                            <VisualState x:Name="Selected">
-                                <VisualState.Setters>
-                                    <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource selected_item_color_light}, Dark={StaticResource primary_color_dark}}" />
-                                    <Setter Property="StrokeThickness" Value="0" />
-                                </VisualState.Setters>
-                            </VisualState>
-                        </VisualStateGroup>
-                    </VisualStateGroupList>
-                </Setter>
-            </Style>
-            <!--#endregion-->
+            <Converter:IntegerToBooleanConverter x:Key="IntegerToBooleanConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -68,18 +46,17 @@
                                               Dark={StaticResource separator_color_dark}}" />
 
         <!--#region Category List (Grid.Row="2")-->
-        <CollectionView
+        <dx:DXCollectionView
             Grid.Row="2"
             Margin="8,16"
+            AllowCascadeUpdate="False"
+            IsScrollBarVisible="False"
+            ItemSpacing="16"
             ItemsSource="{Binding Categories}"
+            Orientation="Horizontal"
             SelectedItem="{Binding SelectedCategory}"
             SelectionMode="Single">
-            <CollectionView.ItemsLayout>
-                <GridItemsLayout
-                    HorizontalItemSpacing="16"
-                    Orientation="Horizontal" />
-            </CollectionView.ItemsLayout>
-            <CollectionView.ItemTemplate>
+            <dx:DXCollectionView.ItemTemplate>
                 <DataTemplate x:DataType="x:String">
                     <Controls:MyBorder1
                         Padding="24,16"
@@ -87,10 +64,26 @@
                         <Label
                             Style="{StaticResource TxtSubtitle1_1}"
                             Text="{Binding .}" />
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal">
+                                    <VisualState.Setters>
+                                        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource unselected_item_color_light}, Dark={StaticResource unselected_item_color_dark}}" />
+                                        <Setter Property="StrokeThickness" Value="0" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Selected">
+                                    <VisualState.Setters>
+                                        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource selected_item_color_light}, Dark={StaticResource primary_color_dark}}" />
+                                        <Setter Property="StrokeThickness" Value="0" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
                     </Controls:MyBorder1>
                 </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+            </dx:DXCollectionView.ItemTemplate>
+        </dx:DXCollectionView>
         <!--#endregion-->
 
         <!--  Separator  (Grid.Row="3")  -->
@@ -100,20 +93,16 @@
                                               Dark={StaticResource separator_color_dark}}" />
 
         <!--#region Filtered Product List (Grid.Row="4")-->
-        <CollectionView
+        <dx:DXCollectionView
             x:Name="productsCollectionView"
             Grid.Row="4"
+            ItemSpacing="4"
+            ItemSpanCount="{Binding Columns}"
             ItemsSource="{Binding FilteredProducts}"
+            Orientation="Vertical"
             SelectedItem="{Binding SelectedFilteredProduct, Mode=TwoWay}"
             SelectionMode="Single">
-            <CollectionView.ItemsLayout>
-                <GridItemsLayout
-                    HorizontalItemSpacing="4"
-                    Orientation="Vertical"
-                    Span="{Binding Columns}"
-                    VerticalItemSpacing="4" />
-            </CollectionView.ItemsLayout>
-            <CollectionView.ItemTemplate>
+            <dx:DXCollectionView.ItemTemplate>
                 <DataTemplate x:DataType="Model:Product">
                     <Border
                         BackgroundColor="{AppThemeBinding Light={StaticResource product_item_surface_color_light},
@@ -204,20 +193,21 @@
                         </Grid>
                     </Border>
                 </DataTemplate>
-            </CollectionView.ItemTemplate>
-            <CollectionView.EmptyView>
-                <!--  Empty View for No Products  -->
-                <ContentView>
-                    <StackLayout
-                        HorizontalOptions="Center"
-                        VerticalOptions="Center">
-                        <Label
-                            Style="{StaticResource TxtBody1_2}"
-                            Text="There are no products in this Category" />
-                    </StackLayout>
-                </ContentView>
-            </CollectionView.EmptyView>
-        </CollectionView>
+            </dx:DXCollectionView.ItemTemplate>
+        </dx:DXCollectionView>
         <!--#endregion-->
+
+        <!--  Empty View for No Products  -->
+        <ContentView
+            Grid.Row="4"
+            IsVisible="{Binding FilteredProducts.Count, Converter={StaticResource IntegerToBooleanConverter}, ConverterParameter=0}">
+            <StackLayout
+                HorizontalOptions="Center"
+                VerticalOptions="Center">
+                <Label
+                    Style="{StaticResource TxtBody1_2}"
+                    Text="There are no products in this Category" />
+            </StackLayout>
+        </ContentView>
     </Grid>
 </ContentPage>

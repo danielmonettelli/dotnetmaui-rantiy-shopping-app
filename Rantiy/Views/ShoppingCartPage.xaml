@@ -7,6 +7,7 @@
     xmlns:Model="clr-namespace:Rantiy.Models"
     xmlns:ReusableControl="clr-namespace:Rantiy.ReusableControls;assembly=Rantiy"
     xmlns:ViewModel="clr-namespace:Rantiy.ViewModels"
+    xmlns:dx="http://schemas.devexpress.com/maui"
     x:DataType="ViewModel:ShoppingCartViewModel">
 
     <Shell.TitleView>
@@ -16,21 +17,19 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <Converter:ItemCountToSingularPluralConverter x:Key="ItemCountConverter" />
+            <Converter:IntegerToBooleanConverter x:Key="IntegerToBooleanConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
     <Grid RowDefinitions="*, 4, Auto">
 
         <!--#region Cart Products List (Grid.Row="0")-->
-        <CollectionView
+        <dx:DXCollectionView
             Grid.Row="0"
-            ItemsSource="{Binding ShoppingCartProducts}">
-            <CollectionView.ItemsLayout>
-                <GridItemsLayout
-                    Orientation="Vertical"
-                    VerticalItemSpacing="4" />
-            </CollectionView.ItemsLayout>
-            <CollectionView.ItemTemplate>
+            ItemSpacing="4"
+            ItemsSource="{Binding ShoppingCartProducts}"
+            Orientation="Vertical">
+            <dx:DXCollectionView.ItemTemplate>
                 <DataTemplate x:DataType="Model:Product">
                     <Border
                         BackgroundColor="{AppThemeBinding Light={StaticResource cart_item_surface_color_light},
@@ -96,20 +95,36 @@
                         </Grid>
                     </Border>
                 </DataTemplate>
-            </CollectionView.ItemTemplate>
-            <CollectionView.EmptyView>
-                <!--  Empty View for No Products  -->
-                <ContentView>
-                    <StackLayout
-                        HorizontalOptions="CenterAndExpand"
-                        VerticalOptions="CenterAndExpand">
-                        <Label
-                            Style="{StaticResource TxtBody1_2}"
-                            Text="Your cart is empty" />
-                    </StackLayout>
-                </ContentView>
-            </CollectionView.EmptyView>
-        </CollectionView>
+            </dx:DXCollectionView.ItemTemplate>
+        </dx:DXCollectionView>
+        <!--#endregion-->
+
+        <!--#region Custom Empty State View-->
+        <ContentView IsVisible="{Binding ShoppingCartProducts.Count, Converter={StaticResource IntegerToBooleanConverter}, ConverterParameter=0}">
+            <StackLayout
+                HorizontalOptions="Center"
+                VerticalOptions="Center">
+                <!--<Image
+                    Margin="0,0,0,16"
+                    HeightRequest="120"
+                    Source="cart_empty"
+                    WidthRequest="120" />-->
+                <Label
+                    HorizontalOptions="Center"
+                    Style="{StaticResource TxtHeadline6_1}"
+                    Text="Your cart is empty" />
+                <Label
+                    Margin="0,8,0,0"
+                    HorizontalOptions="Center"
+                    Style="{StaticResource TxtBody1_2}"
+                    Text="Add products to view them here" />
+                <!--<Button
+                    Margin="24,24,24,0"
+                    Command="{Binding NavigateToHomeCommand}"
+                    Style="{StaticResource BtnPlaceOrder}"
+                    Text="Continue shopping" />-->
+            </StackLayout>
+        </ContentView>
         <!--#endregion-->
 
         <!--#region Purchase Confirmation Area (Grid.Row="2")-->
@@ -118,6 +133,7 @@
             Padding="16,24,16,16"
             BackgroundColor="{AppThemeBinding Light={StaticResource product_item_surface_color_light},
                                               Dark={StaticResource product_item_surface_color_dark}}"
+            IsVisible="{Binding ShoppingCartProducts.Count, Converter={StaticResource IntegerToBooleanConverter}, ConverterParameter=not0}"
             StrokeThickness="0">
             <Border.Shadow>
                 <Shadow

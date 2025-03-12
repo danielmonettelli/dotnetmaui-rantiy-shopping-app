@@ -3,9 +3,11 @@
     x:Class="Rantiy.Views.FavoritesPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:Converter="clr-namespace:Rantiy.Converters"
     xmlns:Model="clr-namespace:Rantiy.Models"
     xmlns:ReusableControl="clr-namespace:Rantiy.ReusableControls;assembly=Rantiy"
     xmlns:ViewModel="clr-namespace:Rantiy.ViewModels"
+    xmlns:dx="http://schemas.devexpress.com/maui"
     x:DataType="ViewModel:FavoritesViewModel"
     SizeChanged="FavoritesPage_SizeChanged">
 
@@ -13,128 +15,131 @@
         <ReusableControl:TitleViewReusable />
     </Shell.TitleView>
 
-    <!--#region Filtered Favorites List-->
-    <CollectionView
-        Grid.Row="0"
-        ItemsSource="{Binding FavoriteProducts}"
-        SelectionMode="Single">
-        <CollectionView.ItemsLayout>
-            <GridItemsLayout
-                HorizontalItemSpacing="4"
-                Orientation="Vertical"
-                Span="{Binding Columns}"
-                VerticalItemSpacing="4" />
-        </CollectionView.ItemsLayout>
-        <CollectionView.ItemTemplate>
-            <DataTemplate x:DataType="Model:Product">
-                <Border
-                    BackgroundColor="{AppThemeBinding Light={StaticResource product_item_surface_color_light},
-                                                      Dark={StaticResource product_item_surface_color_dark}}"
-                    HeightRequest="250"
-                    StrokeThickness="0"
-                    WidthRequest="178">
-                    <Border.GestureRecognizers>
-                        <TapGestureRecognizer
-                            Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModel:FavoritesViewModel}}, Path=RemoveFavoriteCommand}"
-                            CommandParameter="{Binding .}" />
-                    </Border.GestureRecognizers>
-                    <Grid
-                        Padding="4,0,4,16"
-                        RowDefinitions="*, Auto, 8, Auto, 8, Auto">
-                        <!--  Product Image  -->
-                        <Border
-                            Grid.Row="0"
-                            Margin="-4,0"
-                            BackgroundColor="{AppThemeBinding Light={StaticResource internal_surface_color_light},
-                                                              Dark={StaticResource internal_surface_color_dark}}"
-                            StrokeThickness="0">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Converter:IntegerToBooleanConverter x:Key="IntegerToBooleanConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
 
-                            <Image
-                                Aspect="AspectFill"
-                                Source="{Binding Image}" />
-                        </Border>
+    <Grid RowDefinitions="*">
+        <!--#region Filtered Favorites List-->
+        <dx:DXCollectionView
+            Grid.Row="0"
+            ItemSpacing="4"
+            ItemSpanCount="{Binding Columns}"
+            ItemsSource="{Binding FavoriteProducts}"
+            Orientation="Vertical"
+            SelectionMode="Single">
+            <dx:DXCollectionView.ItemTemplate>
+                <DataTemplate x:DataType="Model:Product">
+                    <Border
+                        BackgroundColor="{AppThemeBinding Light={StaticResource product_item_surface_color_light},
+                                                          Dark={StaticResource product_item_surface_color_dark}}"
+                        HeightRequest="250"
+                        StrokeThickness="0"
+                        WidthRequest="178">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModel:FavoritesViewModel}}, Path=RemoveFavoriteCommand}"
+                                CommandParameter="{Binding .}" />
+                        </Border.GestureRecognizers>
+                        <Grid
+                            Padding="4,0,4,16"
+                            RowDefinitions="*, Auto, 8, Auto, 8, Auto">
+                            <!--  Product Image  -->
+                            <Border
+                                Grid.Row="0"
+                                Margin="-4,0"
+                                BackgroundColor="{AppThemeBinding Light={StaticResource internal_surface_color_light},
+                                                                  Dark={StaticResource internal_surface_color_dark}}"
+                                StrokeThickness="0">
 
-                        <!--  Free Shipping  -->
-                        <Border
-                            Grid.Row="1"
-                            Margin="-4,0"
-                            Padding="4"
-                            BackgroundColor="{AppThemeBinding Light={StaticResource white_color},
-                                                              Dark={StaticResource text_container_color_dark}}"
-                            HorizontalOptions="Start"
-                            StrokeThickness="0">
+                                <Image
+                                    Aspect="AspectFill"
+                                    Source="{Binding Image}" />
+                            </Border>
+
+                            <!--  Free Shipping  -->
+                            <Border
+                                Grid.Row="1"
+                                Margin="-4,0"
+                                Padding="4"
+                                BackgroundColor="{AppThemeBinding Light={StaticResource white_color},
+                                                                  Dark={StaticResource text_container_color_dark}}"
+                                HorizontalOptions="Start"
+                                StrokeThickness="0">
+                                <Label
+                                    HorizontalTextAlignment="Start"
+                                    LineBreakMode="TailTruncation"
+                                    MaxLines="1"
+                                    Style="{StaticResource TxtSubtitle2_1}"
+                                    Text="FREE SHIPPING"
+                                    VerticalTextAlignment="Center" />
+                            </Border>
+
+                            <!--  Product Price  -->
                             <Label
+                                Grid.Row="3"
                                 HorizontalTextAlignment="Start"
                                 LineBreakMode="TailTruncation"
                                 MaxLines="1"
-                                Style="{StaticResource TxtSubtitle2_1}"
-                                Text="FREE SHIPPING"
+                                Style="{StaticResource TxtHeadline6_2}"
+                                Text="{Binding Price, StringFormat='$ {0:N0}'}"
                                 VerticalTextAlignment="Center" />
-                        </Border>
 
-                        <!--  Product Price  -->
-                        <Label
-                            Grid.Row="3"
-                            HorizontalTextAlignment="Start"
-                            LineBreakMode="TailTruncation"
-                            MaxLines="1"
-                            Style="{StaticResource TxtHeadline6_2}"
-                            Text="{Binding Price, StringFormat='$ {0:N0}'}"
-                            VerticalTextAlignment="Center" />
+                            <!--  Product Title  -->
+                            <Label
+                                Grid.Row="5"
+                                HorizontalTextAlignment="Start"
+                                LineBreakMode="TailTruncation"
+                                MaxLines="2"
+                                Style="{StaticResource TxtBody1_1}"
+                                Text="{Binding Title}"
+                                VerticalTextAlignment="Center" />
 
-                        <!--  Product Title  -->
-                        <Label
-                            Grid.Row="5"
-                            HorizontalTextAlignment="Start"
-                            LineBreakMode="TailTruncation"
-                            MaxLines="2"
-                            Style="{StaticResource TxtBody1_1}"
-                            Text="{Binding Title}"
-                            VerticalTextAlignment="Center" />
+                            <!--  Favorite Icon  -->
+                            <Border
+                                Grid.Row="0"
+                                Grid.RowSpan="3"
+                                Margin="{OnPlatform WinUI='0,8,16,0',
+                                                    Default='0,8,8,0'}"
+                                BackgroundColor="{AppThemeBinding Light={StaticResource white_color},
+                                                                  Dark={StaticResource icon_container_primary_color_dark}}"
+                                HeightRequest="30"
+                                HorizontalOptions="End"
+                                VerticalOptions="Start"
+                                WidthRequest="30">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="15" />
+                                </Border.StrokeShape>
+                                <Border.Shadow>
+                                    <Shadow
+                                        Brush="{AppThemeBinding Light={StaticResource black_color_brush},
+                                                                Dark={StaticResource white_color_brush}}"
+                                        Opacity="0.45"
+                                        Radius="10"
+                                        Offset="0,4" />
+                                </Border.Shadow>
+                                <Image
+                                    Aspect="Center"
+                                    Source="{StaticResource icon_favorite_solid}" />
+                            </Border>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </dx:DXCollectionView.ItemTemplate>
+        </dx:DXCollectionView>
+        <!--#endregion-->
 
-                        <!--  Favorite Icon  -->
-                        <Border
-                            Grid.Row="0"
-                            Grid.RowSpan="3"
-                            Margin="{OnPlatform WinUI='0,8,16,0',
-                                                Default='0,8,8,0'}"
-                            BackgroundColor="{AppThemeBinding Light={StaticResource white_color},
-                                                              Dark={StaticResource icon_container_primary_color_dark}}"
-                            HeightRequest="30"
-                            HorizontalOptions="End"
-                            VerticalOptions="Start"
-                            WidthRequest="30">
-                            <Border.StrokeShape>
-                                <RoundRectangle CornerRadius="15" />
-                            </Border.StrokeShape>
-                            <Border.Shadow>
-                                <Shadow
-                                    Brush="{AppThemeBinding Light={StaticResource black_color_brush},
-                                                            Dark={StaticResource white_color_brush}}"
-                                    Opacity="0.45"
-                                    Radius="10"
-                                    Offset="0,4" />
-                            </Border.Shadow>
-                            <Image
-                                Aspect="Center"
-                                Source="{StaticResource icon_favorite_solid}" />
-                        </Border>
-                    </Grid>
-                </Border>
-            </DataTemplate>
-        </CollectionView.ItemTemplate>
-        <CollectionView.EmptyView>
-            <!--  Empty View for No Products  -->
-            <ContentView>
-                <StackLayout
-                    HorizontalOptions="Center"
-                    VerticalOptions="Center">
-                    <Label
-                        Style="{StaticResource TxtBody1_2}"
-                        Text="There are no products in favorites" />
-                </StackLayout>
-            </ContentView>
-        </CollectionView.EmptyView>
-    </CollectionView>
-    <!--#endregion-->
+        <ContentView>
+            <StackLayout
+                HorizontalOptions="Center"
+                IsVisible="{Binding FavoriteProducts.Count, Converter={StaticResource IntegerToBooleanConverter}, ConverterParameter=0}"
+                VerticalOptions="Center">
+                <Label
+                    Style="{StaticResource TxtBody1_2}"
+                    Text="There are no products in favorites" />
+            </StackLayout>
+        </ContentView>
+    </Grid>
 </ContentPage>

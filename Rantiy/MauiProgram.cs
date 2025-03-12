@@ -1,4 +1,6 @@
-﻿namespace Rantiy;
+﻿using DevExpress.Maui;
+
+namespace Rantiy;
 
 public static class MauiProgram
 {
@@ -14,7 +16,11 @@ public static class MauiProgram
                 fonts.AddFont("Roboto-Medium.ttf", "Roboto#500");
                 fonts.AddFont("Roboto-Bold.ttf", "Roboto#700");
                 fonts.AddFont("customfonticons.ttf", "CustomFontIcons");
-            }).UseMauiCommunityToolkit();
+            })
+            .UseDevExpress()
+            .UseDevExpressCollectionView()
+            .UseDevExpressControls()
+            .UseMauiCommunityToolkit();
 
         builder.Services.AddSingleton<IFakeStoreService, FakeStoreService>();
 
