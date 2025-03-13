@@ -7,6 +7,12 @@ public partial class HomeViewModel : BaseViewModel
     private bool _isNavigating = false;
     private readonly SemaphoreSlim _navigationSemaphore = new(1, 1);
 
+    [ObservableProperty]
+    private bool isProductsLoading = true;
+
+    [ObservableProperty]
+    private bool isCategoriesLoading = true;
+
     public HomeViewModel(IFakeStoreService fakeStoreService)
     {
         _fakeStoreService = fakeStoreService;
@@ -72,36 +78,84 @@ public partial class HomeViewModel : BaseViewModel
 
     public async Task LoadDataAsync()
     {
-        // Fetch and store categories from service
-        Categories = await _fakeStoreService.GetCategories();
+        try
+        {
+            // Activar shimmer para categorías y productos
+            IsCategoriesLoading = true;
+            IsProductsLoading = true;
+            
+            // Fetch and store categories from service
+            Categories = await _fakeStoreService.GetCategories();
 
-        // Insert "All" option at the beginning of the categories list
-        Categories.Insert(0, "All");
+            // Insert "All" option at the beginning of the categories list
+            Categories.Insert(0, "All");
 
-        // Set "All" as the initially selected category
-        SelectedCategory = Categories.First();
+            // Set "All" as the initially selected category
+            SelectedCategory = Categories.First();
+            
+            // Pequeña pausa para asegurar que el shimmer de categorías se vea
+            await Task.Delay(300);
+            
+            // Desactivar shimmer para categorías
+            IsCategoriesLoading = false;
 
-        // Load and display all products by default
-        FilteredProducts = await _fakeStoreService.GetAllProducts();
+            // Load and display all products by default
+            FilteredProducts = await _fakeStoreService.GetAllProducts();
 
-        // Restaurar estado de favoritos
-        RestoreFavoritesState();
+            // Restaurar estado de favoritos
+            RestoreFavoritesState();
+            
+            // Pequeña pausa para asegurar que el shimmer de productos se vea
+            await Task.Delay(500);
+            
+            // Desactivar shimmer para productos
+            IsProductsLoading = false;
+        }
+        catch (Exception ex)
+        {
+            // En caso de error, asegurar que los estados de carga se desactiven
+            IsCategoriesLoading = false;
+            IsProductsLoading = false;
+            Debug.WriteLine($"Error en LoadDataAsync: {ex.Message}");
+        }
     }
 
     public async Task LoadAllProductsAsync()
     {
-        FilteredProducts = await _fakeStoreService.GetAllProducts();
+        try
+        {
+            IsProductsLoading = true;
+            FilteredProducts = await _fakeStoreService.GetAllProducts();
 
-        // Restaurar estado de favoritos
-        RestoreFavoritesState();
+            // Restaurar estado de favoritos
+            RestoreFavoritesState();
+            
+            // Pequeña pausa para asegurar que el shimmer se vea
+            await Task.Delay(300);
+        }
+        finally
+        {
+            IsProductsLoading = false;
+        }
     }
 
     public async Task FilterProductsByCategoryAsync(string categoryName)
     {
-        FilteredProducts = await _fakeStoreService.GetProductsByCategory(categoryName);
+        try
+        {
+            IsProductsLoading = true;
+            FilteredProducts = await _fakeStoreService.GetProductsByCategory(categoryName);
 
-        // Restaurar estado de favoritos
-        RestoreFavoritesState();
+            // Restaurar estado de favoritos
+            RestoreFavoritesState();
+            
+            // Pequeña pausa para asegurar que el shimmer se vea
+            await Task.Delay(300);
+        }
+        finally
+        {
+            IsProductsLoading = false;
+        }
     }
 
     private void RestoreFavoritesState()
