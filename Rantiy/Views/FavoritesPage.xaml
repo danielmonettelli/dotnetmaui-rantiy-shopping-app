@@ -8,7 +8,9 @@
     xmlns:ReusableControl="clr-namespace:Rantiy.ReusableControls;assembly=Rantiy"
     xmlns:ViewModel="clr-namespace:Rantiy.ViewModels"
     xmlns:dx="http://schemas.devexpress.com/maui"
+    xmlns:sys="clr-namespace:System;assembly=netstandard"
     x:DataType="ViewModel:FavoritesViewModel"
+    Loaded="FavoritesPage_Loaded"
     SizeChanged="FavoritesPage_SizeChanged">
 
     <Shell.TitleView>
@@ -18,128 +20,230 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <Converter:IntegerToBooleanConverter x:Key="IntegerToBooleanConverter" />
+            <Converter:BoolToInverseBoolConverter x:Key="BoolToInverseBoolConverter" />
+            <Converter:StringFormatConverter x:Key="StringFormatConverter" />
+
+            <Style
+                x:Key="ShimmerEffect"
+                TargetType="dx:ShimmerView">
+                <Setter Property="WaveWidth" Value="0.7" />
+                <Setter Property="WaveOpacity" Value="0.8" />
+                <Setter Property="WaveDuration" Value="0:0:0.8" />
+            </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
 
     <Grid RowDefinitions="*">
-        <!--#region Filtered Favorites List-->
-        <dx:DXCollectionView
-            Grid.Row="0"
-            ItemSpacing="4"
-            ItemSpanCount="{Binding Columns}"
-            ItemsSource="{Binding FavoriteProducts}"
-            Orientation="Vertical"
-            SelectionMode="Single">
-            <dx:DXCollectionView.ItemTemplate>
-                <DataTemplate x:DataType="Model:Product">
-                    <Border
-                        BackgroundColor="{AppThemeBinding Light={StaticResource product_item_surface_color_light},
-                                                          Dark={StaticResource product_item_surface_color_dark}}"
-                        HeightRequest="250"
-                        StrokeThickness="0"
-                        WidthRequest="178">
-                        <Border.GestureRecognizers>
-                            <TapGestureRecognizer
-                                Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModel:FavoritesViewModel}}, Path=RemoveFavoriteCommand}"
-                                CommandParameter="{Binding .}" />
-                        </Border.GestureRecognizers>
-                        <Grid
-                            Padding="4,0,4,16"
-                            RowDefinitions="*, Auto, 8, Auto, 8, Auto">
-                            <!--  Product Image  -->
+        <!--  Shimmer con vista de carga (Solo visible cuando está cargando)  -->
+        <dx:ShimmerView
+            IsLoading="True"
+            IsVisible="{Binding IsFavoritesLoading}"
+            Style="{StaticResource ShimmerEffect}">
+            <dx:ShimmerView.LoadingView>
+                <dx:DXCollectionView
+                    Grid.Row="0"
+                    IsScrollBarVisible="False"
+                    ItemSpacing="4"
+                    ItemSpanCount="{Binding Columns}"
+                    Orientation="Vertical">
+                    <dx:DXCollectionView.ItemsSource>
+                        <x:Array Type="{x:Type sys:String}">
+                            <x:String>1</x:String>
+                            <x:String>2</x:String>
+                            <x:String>3</x:String>
+                            <x:String>4</x:String>
+                            <x:String>5</x:String>
+                            <x:String>6</x:String>
+                        </x:Array>
+                    </dx:DXCollectionView.ItemsSource>
+                    <dx:DXCollectionView.ItemTemplate>
+                        <DataTemplate>
                             <Border
-                                Grid.Row="0"
-                                Margin="-4,0"
-                                BackgroundColor="{AppThemeBinding Light={StaticResource internal_surface_color_light},
-                                                                  Dark={StaticResource internal_surface_color_dark}}"
-                                StrokeThickness="0">
+                                Margin="2"
+                                BackgroundColor="{AppThemeBinding Light={StaticResource product_item_surface_color_light},
+                                                                  Dark={StaticResource product_item_surface_color_dark}}"
+                                HeightRequest="250"
+                                StrokeThickness="0"
+                                WidthRequest="178">
+                                <Grid
+                                    Padding="8"
+                                    RowDefinitions="3*, 25, 15, 30, 15, 40">
+                                    <!--  Imagen shimmer  -->
+                                    <Border
+                                        Grid.Row="0"
+                                        BackgroundColor="{AppThemeBinding Light=#f0f0f0,
+                                                                          Dark=#2a2a2a}" />
 
-                                <Image
-                                    Aspect="AspectFill"
-                                    Source="{Binding Image}" />
+                                    <!--  Etiqueta envío gratis shimmer  -->
+                                    <Border
+                                        Grid.Row="1"
+                                        BackgroundColor="{AppThemeBinding Light=#f0f0f0,
+                                                                          Dark=#2a2a2a}"
+                                        HorizontalOptions="Start"
+                                        WidthRequest="100" />
+
+                                    <!--  Precio shimmer  -->
+                                    <Border
+                                        Grid.Row="3"
+                                        BackgroundColor="{AppThemeBinding Light=#f0f0f0,
+                                                                          Dark=#2a2a2a}"
+                                        HorizontalOptions="Start"
+                                        WidthRequest="80" />
+
+                                    <!--  Título shimmer  -->
+                                    <Border
+                                        Grid.Row="5"
+                                        BackgroundColor="{AppThemeBinding Light=#f0f0f0,
+                                                                          Dark=#2a2a2a}" />
+                                </Grid>
                             </Border>
+                        </DataTemplate>
+                    </dx:DXCollectionView.ItemTemplate>
+                </dx:DXCollectionView>
+            </dx:ShimmerView.LoadingView>
+        </dx:ShimmerView>
 
-                            <!--  Free Shipping  -->
+        <!--  Vista de productos favoritos (Visible cuando la carga ha terminado)  -->
+        <ContentView
+            x:Name="MainContentView"
+            IsVisible="{Binding IsFavoritesLoading, Converter={StaticResource BoolToInverseBoolConverter}}"
+            Opacity="0"
+            Scale="0.95"
+            TranslationY="10">
+            <Grid>
+                <!--  CollectionView de productos favoritos  -->
+                <dx:DXCollectionView
+                    x:Name="FavoriteProductsView"
+                    IsScrollBarVisible="True"
+                    IsVisible="{Binding FavoriteProducts.Count, Converter={StaticResource IntegerToBooleanConverter}, ConverterParameter='>0'}"
+                    ItemSpacing="4"
+                    ItemSpanCount="{Binding Columns}"
+                    ItemsSource="{Binding FavoriteProducts}"
+                    Orientation="Vertical"
+                    SelectionMode="None">
+                    <dx:DXCollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="Model:Product">
                             <Border
-                                Grid.Row="1"
-                                Margin="-4,0"
-                                Padding="4"
-                                BackgroundColor="{AppThemeBinding Light={StaticResource white_color},
-                                                                  Dark={StaticResource text_container_color_dark}}"
-                                HorizontalOptions="Start"
-                                StrokeThickness="0">
-                                <Label
-                                    HorizontalTextAlignment="Start"
-                                    LineBreakMode="TailTruncation"
-                                    MaxLines="1"
-                                    Style="{StaticResource TxtSubtitle2_1}"
-                                    Text="FREE SHIPPING"
-                                    VerticalTextAlignment="Center" />
+                                BackgroundColor="{AppThemeBinding Light={StaticResource product_item_surface_color_light},
+                                                                  Dark={StaticResource product_item_surface_color_dark}}"
+                                HeightRequest="250"
+                                StrokeThickness="0"
+                                WidthRequest="178">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModel:FavoritesViewModel}}, Path=RemoveFavoriteCommand}"
+                                        CommandParameter="{Binding .}" />
+                                </Border.GestureRecognizers>
+                                <Grid
+                                    Padding="4,0,4,16"
+                                    RowDefinitions="*, Auto, 8, Auto, 8, Auto">
+                                    <!--  Product Image  -->
+                                    <Border
+                                        Grid.Row="0"
+                                        Margin="-4,0"
+                                        BackgroundColor="{AppThemeBinding Light={StaticResource internal_surface_color_light},
+                                                                          Dark={StaticResource internal_surface_color_dark}}"
+                                        StrokeThickness="0">
+                                        <Image
+                                            Aspect="AspectFill"
+                                            Source="{Binding Image}" />
+                                    </Border>
+
+                                    <!--  Free Shipping  -->
+                                    <Border
+                                        Grid.Row="1"
+                                        Margin="-4,0"
+                                        Padding="4"
+                                        BackgroundColor="{AppThemeBinding Light={StaticResource white_color},
+                                                                          Dark={StaticResource text_container_color_dark}}"
+                                        HorizontalOptions="Start"
+                                        StrokeThickness="0">
+                                        <Label
+                                            HorizontalTextAlignment="Start"
+                                            LineBreakMode="TailTruncation"
+                                            MaxLines="1"
+                                            Style="{StaticResource TxtSubtitle2_1}"
+                                            Text="FREE SHIPPING"
+                                            VerticalTextAlignment="Center" />
+                                    </Border>
+
+                                    <!--  Product Price  -->
+                                    <Label
+                                        Grid.Row="3"
+                                        HorizontalTextAlignment="Start"
+                                        LineBreakMode="TailTruncation"
+                                        MaxLines="1"
+                                        Style="{StaticResource TxtHeadline6_2}"
+                                        Text="{Binding Price, StringFormat='$ {0:N0}'}"
+                                        VerticalTextAlignment="Center" />
+
+                                    <!--  Product Title  -->
+                                    <Label
+                                        Grid.Row="5"
+                                        HorizontalTextAlignment="Start"
+                                        LineBreakMode="TailTruncation"
+                                        MaxLines="2"
+                                        Style="{StaticResource TxtBody1_1}"
+                                        Text="{Binding Title}"
+                                        VerticalTextAlignment="Center" />
+
+                                    <!--  Favorite Icon  -->
+                                    <Border
+                                        Grid.Row="0"
+                                        Grid.RowSpan="3"
+                                        Margin="{OnPlatform WinUI='0,8,16,0',
+                                                            Default='0,8,8,0'}"
+                                        BackgroundColor="{AppThemeBinding Light={StaticResource white_color},
+                                                                          Dark={StaticResource icon_container_primary_color_dark}}"
+                                        HeightRequest="30"
+                                        HorizontalOptions="End"
+                                        VerticalOptions="Start"
+                                        WidthRequest="30">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="15" />
+                                        </Border.StrokeShape>
+                                        <Border.Shadow>
+                                            <Shadow
+                                                Brush="{AppThemeBinding Light={StaticResource black_color_brush},
+                                                                        Dark={StaticResource white_color_brush}}"
+                                                Opacity="0.45"
+                                                Radius="10"
+                                                Offset="0,4" />
+                                        </Border.Shadow>
+                                        <Image
+                                            Aspect="Center"
+                                            Source="{StaticResource icon_favorite_solid}" />
+                                    </Border>
+                                </Grid>
                             </Border>
+                        </DataTemplate>
+                    </dx:DXCollectionView.ItemTemplate>
+                </dx:DXCollectionView>
 
-                            <!--  Product Price  -->
-                            <Label
-                                Grid.Row="3"
-                                HorizontalTextAlignment="Start"
-                                LineBreakMode="TailTruncation"
-                                MaxLines="1"
-                                Style="{StaticResource TxtHeadline6_2}"
-                                Text="{Binding Price, StringFormat='$ {0:N0}'}"
-                                VerticalTextAlignment="Center" />
-
-                            <!--  Product Title  -->
-                            <Label
-                                Grid.Row="5"
-                                HorizontalTextAlignment="Start"
-                                LineBreakMode="TailTruncation"
-                                MaxLines="2"
-                                Style="{StaticResource TxtBody1_1}"
-                                Text="{Binding Title}"
-                                VerticalTextAlignment="Center" />
-
-                            <!--  Favorite Icon  -->
-                            <Border
-                                Grid.Row="0"
-                                Grid.RowSpan="3"
-                                Margin="{OnPlatform WinUI='0,8,16,0',
-                                                    Default='0,8,8,0'}"
-                                BackgroundColor="{AppThemeBinding Light={StaticResource white_color},
-                                                                  Dark={StaticResource icon_container_primary_color_dark}}"
-                                HeightRequest="30"
-                                HorizontalOptions="End"
-                                VerticalOptions="Start"
-                                WidthRequest="30">
-                                <Border.StrokeShape>
-                                    <RoundRectangle CornerRadius="15" />
-                                </Border.StrokeShape>
-                                <Border.Shadow>
-                                    <Shadow
-                                        Brush="{AppThemeBinding Light={StaticResource black_color_brush},
-                                                                Dark={StaticResource white_color_brush}}"
-                                        Opacity="0.45"
-                                        Radius="10"
-                                        Offset="0,4" />
-                                </Border.Shadow>
-                                <Image
-                                    Aspect="Center"
-                                    Source="{StaticResource icon_favorite_solid}" />
-                            </Border>
-                        </Grid>
-                    </Border>
-                </DataTemplate>
-            </dx:DXCollectionView.ItemTemplate>
-        </dx:DXCollectionView>
-        <!--#endregion-->
-
-        <ContentView>
-            <StackLayout
-                HorizontalOptions="Center"
-                IsVisible="{Binding FavoriteProducts.Count, Converter={StaticResource IntegerToBooleanConverter}, ConverterParameter=0}"
-                VerticalOptions="Center">
-                <Label
-                    Style="{StaticResource TxtBody1_2}"
-                    Text="There are no products in favorites" />
-            </StackLayout>
+                <!--  Vista de mensaje "no hay favoritos"  -->
+                <StackLayout
+                    HorizontalOptions="Center"
+                    IsVisible="{Binding FavoriteProducts.Count, Converter={StaticResource IntegerToBooleanConverter}, ConverterParameter=0}"
+                    VerticalOptions="Center">
+                    <Image
+                        HeightRequest="80"
+                        HorizontalOptions="Center"
+                        Opacity="0.5"
+                        Source="{StaticResource icon_favorite_outline}"
+                        VerticalOptions="Center"
+                        WidthRequest="80" />
+                    <Label
+                        Margin="0,20,0,0"
+                        HorizontalTextAlignment="Center"
+                        Style="{StaticResource TxtBody1_2}"
+                        Text="You don't have any favorite products yet." />
+                    <Label
+                        Margin="0,5,0,0"
+                        HorizontalTextAlignment="Center"
+                        Style="{StaticResource TxtBody1_2}"
+                        Text="Explore products and tap the ♥ icon to add them to your favorites." />
+                </StackLayout>
+            </Grid>
         </ContentView>
     </Grid>
 </ContentPage>

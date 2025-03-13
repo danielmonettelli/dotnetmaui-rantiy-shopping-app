@@ -14,10 +14,20 @@ public partial class FavoritesPage : ContentPage
         App.FavoritesViewModel.Columns = (int)(Width / 178);
     }
 
-    protected override void OnAppearing()
+    private void FavoritesPage_Loaded(object sender, EventArgs e)
+    {
+        MainContentView.Opacity = 0;
+        MainContentView.Scale = 0.95;
+        MainContentView.TranslationY = 10;
+    }
+
+    protected override async void OnAppearing()
     {
         base.OnAppearing();
 
         BindingContext = App.FavoritesViewModel;
+        
+        // Llamamos al método que activará el shimmer y cargará los datos
+        await App.FavoritesViewModel.LoadFavoritesAsync();
     }
 }

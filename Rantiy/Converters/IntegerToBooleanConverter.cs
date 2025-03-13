@@ -20,6 +20,12 @@ public class IntegerToBooleanConverter : IValueConverter
                 return isZero;
             }
 
+            // Si el parámetro es ">0", devolvemos true si count es mayor que 0
+            if (param == ">0")
+            {
+                return count > 0;
+            }
+
             // Si el parámetro es un número, comprobamos la igualdad
             if (int.TryParse(param, out int threshold))
             {
