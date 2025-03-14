@@ -8,6 +8,7 @@
     xmlns:ReusableControl="clr-namespace:Rantiy.ReusableControls;assembly=Rantiy"
     xmlns:ViewModel="clr-namespace:Rantiy.ViewModels"
     xmlns:dx="http://schemas.devexpress.com/maui"
+    xmlns:mct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     x:DataType="ViewModel:ShoppingCartViewModel">
 
     <Shell.TitleView>
@@ -36,12 +37,12 @@
                                                           Dark={StaticResource cart_item_surface_color_dark}}"
                         StrokeThickness="0">
                         <Grid
-                            ColumnDefinitions="Auto, 24, Auto, *, Auto, 8"
-                            RowDefinitions="16, Auto, 16, Auto, 8">
+                            ColumnDefinitions="Auto, 20, Auto, *, Auto, 12"
+                            RowDefinitions="16, Auto, 16, Auto, 16, Auto, 12">
                             <!--  Image  -->
                             <Border
                                 Grid.Row="0"
-                                Grid.RowSpan="5"
+                                Grid.RowSpan="7"
                                 Grid.Column="0"
                                 BackgroundColor="{AppThemeBinding Light={StaticResource internal_surface_color_light},
                                                                   Dark={StaticResource internal_surface_color_dark}}"
@@ -66,12 +67,87 @@
                                 Grid.Row="3"
                                 Grid.Column="2"
                                 Style="{StaticResource TxtHeadline6_2}"
-                                Text="{Binding Price, StringFormat='$ {0:N0}'}"
+                                Text="{Binding TotalPrice, StringFormat='$ {0:N2}'}"
                                 VerticalTextAlignment="Start" />
+
+                            <!--  Quantity Controls  -->
+                            <Grid
+                                Grid.Row="5"
+                                Grid.Column="2"
+                                ColumnDefinitions="Auto, Auto, Auto"
+                                HeightRequest="30">
+
+                                <!--  Decrease Button  -->
+                                <Border
+                                    Grid.Column="0"
+                                    BackgroundColor="{AppThemeBinding Light={StaticResource icon_container_quantity_color_light},
+                                                                      Dark={StaticResource icon_container_quantity_color_dark}}"
+                                    WidthRequest="40">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="6,0,6,0" />
+                                    </Border.StrokeShape>
+                                    <Border.Behaviors>
+                                        <mct:TouchBehavior
+                                            DefaultAnimationDuration="250"
+                                            DefaultAnimationEasing="{x:Static Easing.CubicInOut}"
+                                            PressedBackgroundColor="{AppThemeBinding Light={StaticResource primary_color_light},
+                                                                                     Dark={StaticResource primary_color_dark}}"
+                                            PressedOpacity="1"
+                                            PressedScale="0.8" />
+                                    </Border.Behaviors>
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModel:ShoppingCartViewModel}}, Path=DecreaseQuantityCommand}"
+                                            CommandParameter="{Binding .}" />
+                                    </Border.GestureRecognizers>
+                                    <Image
+                                        Aspect="Center"
+                                        Source="{AppThemeBinding Light=icon_decrease_light.png,
+                                                                 Dark=icon_decrease_dark.png}" />
+                                </Border>
+
+                                <!--  Quantity Display  -->
+                                <Label
+                                    Grid.Column="1"
+                                    HorizontalTextAlignment="Center"
+                                    Style="{StaticResource TxtBody1_1}"
+                                    Text="{Binding Quantity}"
+                                    VerticalTextAlignment="Center"
+                                    WidthRequest="40" />
+
+                                <!--  Increase Button  -->
+                                <Border
+                                    Grid.Column="2"
+                                    BackgroundColor="{AppThemeBinding Light={StaticResource icon_container_quantity_color_light},
+                                                                      Dark={StaticResource icon_container_quantity_color_dark}}"
+                                    WidthRequest="40">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="0,6,0,6" />
+                                    </Border.StrokeShape>
+                                    <Border.Behaviors>
+                                        <mct:TouchBehavior
+                                            DefaultAnimationDuration="250"
+                                            DefaultAnimationEasing="{x:Static Easing.CubicInOut}"
+                                            PressedBackgroundColor="{AppThemeBinding Light={StaticResource primary_color_light},
+                                                                                     Dark={StaticResource primary_color_dark}}"
+                                            PressedOpacity="1"
+                                            PressedScale="0.8" />
+                                    </Border.Behaviors>
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModel:ShoppingCartViewModel}}, Path=IncreaseQuantityCommand}"
+                                            CommandParameter="{Binding .}" />
+                                    </Border.GestureRecognizers>
+                                    <Image
+                                        Aspect="Center"
+                                        Source="{AppThemeBinding Light=icon_increase_light.png,
+                                                                 Dark=icon_increase_dark.png}" />
+                                </Border>
+                            </Grid>
 
                             <!--  Delete Icon  -->
                             <ImageButton
-                                Grid.Row="3"
+                                Grid.Row="5"
                                 Grid.Column="4"
                                 Aspect="Center"
                                 BackgroundColor="{AppThemeBinding Light={StaticResource icon_container_delete_color_light},
@@ -82,6 +158,7 @@
                                 HeightRequest="30"
                                 HorizontalOptions="End"
                                 Source="{StaticResource icon_delete}"
+                                VerticalOptions="Center"
                                 WidthRequest="30">
                                 <ImageButton.Shadow>
                                     <Shadow
@@ -104,11 +181,6 @@
             <StackLayout
                 HorizontalOptions="Center"
                 VerticalOptions="Center">
-                <!--<Image
-                    Margin="0,0,0,16"
-                    HeightRequest="120"
-                    Source="cart_empty"
-                    WidthRequest="120" />-->
                 <Label
                     HorizontalOptions="Center"
                     Style="{StaticResource TxtHeadline6_1}"
@@ -118,11 +190,6 @@
                     HorizontalOptions="Center"
                     Style="{StaticResource TxtBody1_2}"
                     Text="Add products to view them here" />
-                <!--<Button
-                    Margin="24,24,24,0"
-                    Command="{Binding NavigateToHomeCommand}"
-                    Style="{StaticResource BtnPlaceOrder}"
-                    Text="Continue shopping" />-->
             </StackLayout>
         </ContentView>
         <!--#endregion-->
@@ -160,7 +227,7 @@
                     Grid.Row="2"
                     Grid.Column="0"
                     Style="{StaticResource TxtHeadline6_1}"
-                    Text="{Binding ShoppingCartProducts.Count, Converter={StaticResource ItemCountConverter}}" />
+                    Text="{Binding TotalItems, StringFormat='{0} items'}" />
 
                 <!--  Textual Summary of Total Purchase Price  -->
                 <Label

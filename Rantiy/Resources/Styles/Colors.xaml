@@ -14,6 +14,10 @@
     <Color x:Key="icon_container_delete_color_dark">#FF313237</Color>
     <Color x:Key="icon_container_delete_color_light">#FFC7C8CE</Color>
     <Color x:Key="icon_container_primary_color_dark">#FF444344</Color>
+    <Color x:Key="icon_container_quantity_color_dark">#FF565658</Color>
+    <Color x:Key="icon_container_quantity_color_light">#FFB7B7B7</Color>
+    <Color x:Key="icon_quantity_color_dark">#FFD8D8D8</Color>
+    <Color x:Key="icon_quantity_color_light">#FF3A3C44</Color>
     <Color x:Key="internal_surface_color_dark">#FF2A2B2F</Color>
     <Color x:Key="internal_surface_color_light">#FFD0D1D5</Color>
     <Color x:Key="pre_load_brand_icon_color_dark">#FF797B86</Color>

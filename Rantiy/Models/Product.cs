@@ -25,6 +25,12 @@ public partial class Product : ObservableObject
 
     [ObservableProperty]
     private bool isFavorite;
+    
+    [ObservableProperty]
+    private int quantity = 1;
+    
+    // Propiedad calculada para obtener el precio total basado en la cantidad
+    public float TotalPrice => Price * Quantity;
 }
 
 public class Rating
