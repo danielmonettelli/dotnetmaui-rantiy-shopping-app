@@ -25,8 +25,9 @@ public partial class Product : ObservableObject
 
     [ObservableProperty]
     private bool isFavorite;
-    
+
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(TotalPrice))]
     private int quantity = 1;
     
     // Propiedad calculada para obtener el precio total basado en la cantidad
