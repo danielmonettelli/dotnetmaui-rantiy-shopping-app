@@ -25,7 +25,7 @@ on:
 jobs:
   Build_Android:
     runs-on: windows-latest
-
+    
     steps:
       - uses: actions/checkout@v4
 
@@ -43,6 +43,10 @@ jobs:
         run: |
           dotnet workload install maui
 
+      - name: Setup DevExpress NuGet Source
+        run: |
+          dotnet nuget add source ${{ secrets.DEVEXPRESS_NUGET_URL }} --name DevExpress
+
       - name: Restore NuGet
         run: |
           dotnet restore ./Rantiy
@@ -53,7 +57,7 @@ jobs:
 
   Build_iOS:
     runs-on: macos-15
-
+    
     steps:
       - uses: actions/checkout@v4
 
@@ -65,6 +69,10 @@ jobs:
       - name: Install .NET MAUI Workload
         run: |
           dotnet workload install maui
+
+      - name: Setup DevExpress NuGet Source
+        run: |
+          dotnet nuget add source ${{ secrets.DEVEXPRESS_NUGET_URL }} --name DevExpress
 
       - name: Restore NuGet
         run: |
@@ -81,7 +89,7 @@ jobs:
 
   Build_MacCatalyst:
     runs-on: macos-15
-
+    
     steps:
       - uses: actions/checkout@v4
 
@@ -93,6 +101,10 @@ jobs:
       - name: Install .NET MAUI Workload
         run: |
           dotnet workload install maui
+
+      - name: Setup DevExpress NuGet Source
+        run: |
+          dotnet nuget add source ${{ secrets.DEVEXPRESS_NUGET_URL }} --name DevExpress
 
       - name: Restore NuGet
         run: |
@@ -109,7 +121,7 @@ jobs:
 
   Build_Windows:
     runs-on: windows-latest
-
+    
     steps:
       - uses: actions/checkout@v4
 
@@ -126,6 +138,10 @@ jobs:
       - name: Install .NET MAUI Workload
         run: |
           dotnet workload install maui
+
+      - name: Setup DevExpress NuGet Source
+        run: |
+          dotnet nuget add source ${{ secrets.DEVEXPRESS_NUGET_URL }} --name DevExpress
 
       - name: Restore NuGet
         run: |
