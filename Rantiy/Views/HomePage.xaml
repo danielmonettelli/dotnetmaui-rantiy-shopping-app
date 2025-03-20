@@ -20,7 +20,7 @@
             <Converter:BooleanToFavoriteIconConverter x:Key="BooleanToFavoriteIconConverter" />
             <Converter:IntegerToBooleanConverter x:Key="IntegerToBooleanConverter" />
             <Converter:BoolToInverseBoolConverter x:Key="BoolToInverseBoolConverter" />
-            
+
             <Style
                 x:Key="ShimmerEffect"
                 TargetType="dx:ShimmerView">
@@ -55,53 +55,48 @@
             BackgroundColor="{AppThemeBinding Light={StaticResource separator_color_light},
                                               Dark={StaticResource separator_color_dark}}" />
 
-        <!-- Grid para contener tanto el shimmer como las categorías reales (Grid.Row="2") -->
+        <!--  Grid para contener tanto el shimmer como las categorías reales (Grid.Row="2")  -->
         <Grid Grid.Row="2">
-            <!-- Shimmer para las categorías (solo visible durante la carga inicial) -->
+            <!--  Shimmer para las categorías (solo visible durante la carga inicial)  -->
             <dx:ShimmerView
                 IsLoading="True"
                 IsVisible="{Binding IsCategoriesLoading}"
                 Style="{StaticResource ShimmerEffect}">
                 <dx:ShimmerView.LoadingView>
-                    <HorizontalStackLayout Margin="8,16" Spacing="16">
-                        <!-- Simulación de categorías en shimmer -->
-                        <Border
-                            BackgroundColor="{AppThemeBinding Light=#f0f0f0, Dark=#2a2a2a}"
-                            HeightRequest="48"
-                            StrokeThickness="0"
-                            WidthRequest="80">
-                            <Border.StrokeShape>
-                                <RoundRectangle CornerRadius="8" />
-                            </Border.StrokeShape>
-                        </Border>
-                        <Border
-                            BackgroundColor="{AppThemeBinding Light=#f0f0f0, Dark=#2a2a2a}"
-                            HeightRequest="48"
-                            StrokeThickness="0"
-                            WidthRequest="100">
-                            <Border.StrokeShape>
-                                <RoundRectangle CornerRadius="8" />
-                            </Border.StrokeShape>
-                        </Border>
-                        <Border
-                            BackgroundColor="{AppThemeBinding Light=#f0f0f0, Dark=#2a2a2a}"
-                            HeightRequest="48"
-                            StrokeThickness="0"
-                            WidthRequest="120">
-                            <Border.StrokeShape>
-                                <RoundRectangle CornerRadius="8" />
-                            </Border.StrokeShape>
-                        </Border>
-                        <Border
-                            BackgroundColor="{AppThemeBinding Light=#f0f0f0, Dark=#2a2a2a}"
-                            HeightRequest="48"
-                            StrokeThickness="0"
-                            WidthRequest="110">
-                            <Border.StrokeShape>
-                                <RoundRectangle CornerRadius="8" />
-                            </Border.StrokeShape>
-                        </Border>
-                    </HorizontalStackLayout>
+                    <dx:DXCollectionView
+                        Margin="8,16"
+                        AllowCascadeUpdate="False"
+                        IsScrollBarVisible="False"
+                        ItemSpacing="16"
+                        Orientation="Horizontal">
+                        <dx:DXCollectionView.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>1</x:String>
+                                <x:String>2</x:String>
+                                <x:String>3</x:String>
+                                <x:String>4</x:String>
+                                <x:String>5</x:String>
+                                <x:String>6</x:String>
+                                <x:String>7</x:String>
+                                <x:String>8</x:String>
+                            </x:Array>
+                        </dx:DXCollectionView.ItemsSource>
+                        <dx:DXCollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <!--  Simulación de categorías en shimmer  -->
+                                <Border
+                                    BackgroundColor="{AppThemeBinding Light={StaticResource product_item_surface_color_light},
+                                                                      Dark={StaticResource product_item_surface_color_dark}}"
+                                    HeightRequest="48"
+                                    StrokeThickness="0"
+                                    WidthRequest="80">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="8" />
+                                    </Border.StrokeShape>
+                                </Border>
+                            </DataTemplate>
+                        </dx:DXCollectionView.ItemTemplate>
+                    </dx:DXCollectionView>
                 </dx:ShimmerView.LoadingView>
             </dx:ShimmerView>
 
@@ -153,17 +148,19 @@
             BackgroundColor="{AppThemeBinding Light={StaticResource separator_color_light},
                                               Dark={StaticResource separator_color_dark}}" />
 
-        <!-- Grid para contener tanto el shimmer como la lista de productos reales (Grid.Row="4") -->
+        <!--  Grid para contener tanto el shimmer como la lista de productos reales (Grid.Row="4")  -->
         <Grid Grid.Row="4">
-            <!-- Shimmer con vista de carga (visible cuando está cargando) -->
+            <!--  Shimmer con vista de carga (visible cuando está cargando)  -->
             <dx:ShimmerView
                 IsLoading="True"
                 IsVisible="{Binding IsProductsLoading}"
                 Style="{StaticResource ShimmerEffect}">
                 <dx:ShimmerView.LoadingView>
                     <dx:DXCollectionView
+                        AllowCascadeUpdate="False"
                         ItemSpacing="4"
                         ItemSpanCount="{Binding Columns}"
+                        ItemSpanSpacing="4"
                         Orientation="Vertical">
                         <dx:DXCollectionView.ItemsSource>
                             <x:Array Type="{x:Type x:String}">
@@ -180,42 +177,44 @@
                         <dx:DXCollectionView.ItemTemplate>
                             <DataTemplate>
                                 <Border
-                                    Margin="2"
                                     BackgroundColor="{AppThemeBinding Light={StaticResource product_item_surface_color_light},
                                                                       Dark={StaticResource product_item_surface_color_dark}}"
                                     HeightRequest="250"
                                     StrokeThickness="0"
                                     WidthRequest="178">
                                     <Grid
-                                        Padding="8"
-                                        RowDefinitions="3*, 25, 15, 30, 15, 40">
-                                        <!-- Imagen shimmer -->
+                                        Padding="4,0,16,0"
+                                        RowDefinitions="152, 32, 22, 8, 10, 4, 10, 12">
+                                        <!--  Imagen shimmer  -->
                                         <Border
                                             Grid.Row="0"
-                                            BackgroundColor="{AppThemeBinding Light=#f0f0f0,
-                                                                              Dark=#2a2a2a}" />
+                                            Margin="-4,0,-16,0"
+                                            BackgroundColor="{AppThemeBinding Light={StaticResource internal_surface_color_light},
+                                                                              Dark={StaticResource internal_surface_color_dark}}">
+                                            <Image
+                                                Aspect="Center"
+                                                HeightRequest="80"
+                                                Source="{StaticResource icon_brand_surface_1}"
+                                                WidthRequest="66" />
+                                        </Border>
 
-                                        <!-- Etiqueta envío gratis shimmer -->
+                                        <!--  Precio shimmer  -->
                                         <Border
-                                            Grid.Row="1"
-                                            BackgroundColor="{AppThemeBinding Light=#f0f0f0,
-                                                                              Dark=#2a2a2a}"
-                                            HorizontalOptions="Start"
-                                            WidthRequest="100" />
-
-                                        <!-- Precio shimmer -->
-                                        <Border
-                                            Grid.Row="3"
-                                            BackgroundColor="{AppThemeBinding Light=#f0f0f0,
-                                                                              Dark=#2a2a2a}"
+                                            Grid.Row="2"
+                                            BackgroundColor="{AppThemeBinding Light={StaticResource internal_surface_color_light},
+                                                                              Dark={StaticResource internal_surface_color_dark}}"
                                             HorizontalOptions="Start"
                                             WidthRequest="80" />
 
-                                        <!-- Título shimmer -->
+                                        <!--  Título shimmer  -->
                                         <Border
-                                            Grid.Row="5"
-                                            BackgroundColor="{AppThemeBinding Light=#f0f0f0,
-                                                                              Dark=#2a2a2a}" />
+                                            Grid.Row="4"
+                                            BackgroundColor="{AppThemeBinding Light={StaticResource internal_surface_color_light},
+                                                                              Dark={StaticResource internal_surface_color_dark}}" />
+                                        <Border
+                                            Grid.Row="6"
+                                            BackgroundColor="{AppThemeBinding Light={StaticResource internal_surface_color_light},
+                                                                              Dark={StaticResource internal_surface_color_dark}}" />
                                     </Grid>
                                 </Border>
                             </DataTemplate>
@@ -230,6 +229,7 @@
                 IsVisible="{Binding IsProductsLoading, Converter={StaticResource BoolToInverseBoolConverter}}"
                 ItemSpacing="4"
                 ItemSpanCount="{Binding Columns}"
+                ItemSpanSpacing="4"
                 ItemsSource="{Binding FilteredProducts}"
                 Orientation="Vertical"
                 SelectedItem="{Binding SelectedFilteredProduct, Mode=TwoWay}"
@@ -238,7 +238,7 @@
                     <DataTemplate x:DataType="Model:Product">
                         <Border
                             BackgroundColor="{AppThemeBinding Light={StaticResource product_item_surface_color_light},
-                                                          Dark={StaticResource product_item_surface_color_dark}}"
+                                                              Dark={StaticResource product_item_surface_color_dark}}"
                             HeightRequest="250"
                             StrokeThickness="0"
                             WidthRequest="178">
@@ -250,7 +250,7 @@
                                     Grid.Row="0"
                                     Margin="-4,0"
                                     BackgroundColor="{AppThemeBinding Light={StaticResource internal_surface_color_light},
-                                                                  Dark={StaticResource internal_surface_color_dark}}"
+                                                                      Dark={StaticResource internal_surface_color_dark}}"
                                     StrokeThickness="0">
 
                                     <Image
@@ -264,7 +264,7 @@
                                     Margin="-4,0"
                                     Padding="4"
                                     BackgroundColor="{AppThemeBinding Light={StaticResource white_color},
-                                                                  Dark={StaticResource text_container_color_dark}}"
+                                                                      Dark={StaticResource text_container_color_dark}}"
                                     HorizontalOptions="Start"
                                     StrokeThickness="0">
                                     <Label
@@ -301,10 +301,10 @@
                                     Grid.Row="0"
                                     Grid.RowSpan="3"
                                     Margin="{OnPlatform WinUI='0,8,16,0',
-                                                    Default='0,8,8,0'}"
+                                                        Default='0,8,8,0'}"
                                     Aspect="Center"
                                     BackgroundColor="{AppThemeBinding Light={StaticResource white_color},
-                                                                  Dark={StaticResource icon_container_primary_color_dark}}"
+                                                                      Dark={StaticResource icon_container_primary_color_dark}}"
                                     Command="{Binding Source={RelativeSource AncestorType={x:Type pages:HomePage}}, Path=BindingContext.ToggleFavoriteIconCommand}"
                                     CommandParameter="{Binding .}"
                                     CornerRadius="15"
@@ -316,7 +316,7 @@
                                     <ImageButton.Shadow>
                                         <Shadow
                                             Brush="{AppThemeBinding Light={StaticResource black_color_brush},
-                                                                Dark={StaticResource white_color_brush}}"
+                                                                    Dark={StaticResource white_color_brush}}"
                                             Opacity="0.45"
                                             Radius="10"
                                             Offset="0,4" />
@@ -329,9 +329,8 @@
             </dx:DXCollectionView>
             <!--#endregion-->
 
-            <!--  Empty View para cuando no hay productos (visible solo cuando no está cargando) -->
-            <ContentView
-                IsVisible="{Binding IsProductsLoading, Converter={StaticResource BoolToInverseBoolConverter}}">
+            <!--  Empty View para cuando no hay productos (visible solo cuando no está cargando)  -->
+            <ContentView IsVisible="{Binding IsProductsLoading, Converter={StaticResource BoolToInverseBoolConverter}}">
                 <StackLayout
                     HorizontalOptions="Center"
                     IsVisible="{Binding FilteredProducts.Count, Converter={StaticResource IntegerToBooleanConverter}, ConverterParameter=0}"
