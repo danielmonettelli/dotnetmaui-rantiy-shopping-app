@@ -45,6 +45,7 @@
                     IsScrollBarVisible="False"
                     ItemSpacing="4"
                     ItemSpanCount="{Binding Columns}"
+                    ItemSpanSpacing="4"
                     Orientation="Vertical">
                     <dx:DXCollectionView.ItemsSource>
                         <x:Array Type="{x:Type sys:String}">
@@ -59,42 +60,44 @@
                     <dx:DXCollectionView.ItemTemplate>
                         <DataTemplate>
                             <Border
-                                Margin="2"
                                 BackgroundColor="{AppThemeBinding Light={StaticResource product_item_surface_color_light},
                                                                   Dark={StaticResource product_item_surface_color_dark}}"
                                 HeightRequest="250"
                                 StrokeThickness="0"
                                 WidthRequest="178">
                                 <Grid
-                                    Padding="8"
-                                    RowDefinitions="3*, 25, 15, 30, 15, 40">
+                                    Padding="4,0,16,0"
+                                    RowDefinitions="152, 32, 22, 8, 10, 4, 10, 12">
                                     <!--  Imagen shimmer  -->
                                     <Border
                                         Grid.Row="0"
-                                        BackgroundColor="{AppThemeBinding Light=#f0f0f0,
-                                                                          Dark=#2a2a2a}" />
-
-                                    <!--  Etiqueta envío gratis shimmer  -->
-                                    <Border
-                                        Grid.Row="1"
-                                        BackgroundColor="{AppThemeBinding Light=#f0f0f0,
-                                                                          Dark=#2a2a2a}"
-                                        HorizontalOptions="Start"
-                                        WidthRequest="100" />
+                                        Margin="-4,0,-16,0"
+                                        BackgroundColor="{AppThemeBinding Light={StaticResource internal_surface_color_light},
+                                                                          Dark={StaticResource internal_surface_color_dark}}">
+                                        <Image
+                                            Aspect="Center"
+                                            HeightRequest="80"
+                                            Source="{StaticResource icon_brand_surface_1}"
+                                            WidthRequest="66" />
+                                    </Border>
 
                                     <!--  Precio shimmer  -->
                                     <Border
-                                        Grid.Row="3"
-                                        BackgroundColor="{AppThemeBinding Light=#f0f0f0,
-                                                                          Dark=#2a2a2a}"
+                                        Grid.Row="2"
+                                        BackgroundColor="{AppThemeBinding Light={StaticResource internal_surface_color_light},
+                                                                          Dark={StaticResource internal_surface_color_dark}}"
                                         HorizontalOptions="Start"
                                         WidthRequest="80" />
 
                                     <!--  Título shimmer  -->
                                     <Border
-                                        Grid.Row="5"
-                                        BackgroundColor="{AppThemeBinding Light=#f0f0f0,
-                                                                          Dark=#2a2a2a}" />
+                                        Grid.Row="4"
+                                        BackgroundColor="{AppThemeBinding Light={StaticResource internal_surface_color_light},
+                                                                          Dark={StaticResource internal_surface_color_dark}}" />
+                                    <Border
+                                        Grid.Row="6"
+                                        BackgroundColor="{AppThemeBinding Light={StaticResource internal_surface_color_light},
+                                                                          Dark={StaticResource internal_surface_color_dark}}" />
                                 </Grid>
                             </Border>
                         </DataTemplate>
@@ -118,6 +121,7 @@
                     IsVisible="{Binding FavoriteProducts.Count, Converter={StaticResource IntegerToBooleanConverter}, ConverterParameter='>0'}"
                     ItemSpacing="4"
                     ItemSpanCount="{Binding Columns}"
+                    ItemSpanSpacing="4"
                     ItemsSource="{Binding FavoriteProducts}"
                     Orientation="Vertical"
                     SelectionMode="None">
